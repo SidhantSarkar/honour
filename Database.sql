@@ -119,7 +119,9 @@ CREATE TABLE `Active_Cases` (
   `CNRno` int(11) NOT NULL AUTO_INCREMENT,
   `FilingNo` int(11) NOT NULL,
   `FilingDate` date NOT NULL,
-  `FirstHearing` date DEFAULT NULL,
+  `FirstHearing` datetime DEFAULT NULL,
+  `NextHearing` datetime DEFAULT NULL,
+  `PrevHearing` datetime DEFAULT NULL,
   `Stage` varchar(20) DEFAULT NULL,
   `CourtNo` int(11) NOT NULL,
   `JudgeID` int(11) NOT NULL,
@@ -165,20 +167,23 @@ CREATE TABLE `Closed_Cases` (
   `Acts` varchar(100) NOT NULL,
   `FinalVerdict` varchar(50) NOT NULL,
   `Verdict_Date` date NOT NULL,
-  `WonID` int(11) NOT NULL,
+  `WonID_Client` int(11) NOT NULL,
+  `WonID_Lawyer` int(11) NOT NULL,
   PRIMARY KEY (`CNRno`),
   KEY `JudgeID` (`JudgeID`),
   KEY `VictimID` (`VictimID`),
   KEY `Victim_LawyerID` (`Victim_LawyerID`),
   KEY `AccusedID` (`AccusedID`),
   KEY `Accused_LawyerID` (`Accused_LawyerID`),
-  KEY `WonID` (`WonID`),
+  KEY `WonID_Client` (`WonID_Client`),
+  KEY `WonID_Lawyer` (`WonID_Lawyer`),
   CONSTRAINT `Closed_Cases_ibfk_1` FOREIGN KEY (`JudgeID`) REFERENCES `Judges` (`ID`),
   CONSTRAINT `Closed_Cases_ibfk_2` FOREIGN KEY (`VictimID`) REFERENCES `Clients` (`ID`),
   CONSTRAINT `Closed_Cases_ibfk_3` FOREIGN KEY (`Victim_LawyerID`) REFERENCES `Lawyers` (`ID`),
   CONSTRAINT `Closed_Cases_ibfk_4` FOREIGN KEY (`AccusedID`) REFERENCES `Clients` (`ID`),
   CONSTRAINT `Closed_Cases_ibfk_5` FOREIGN KEY (`Accused_LawyerID`) REFERENCES `Lawyers` (`ID`),
-  CONSTRAINT `Closed_Cases_ibfk_6` FOREIGN KEY (`WonID`) REFERENCES `Clients` (`ID`)
+  CONSTRAINT `Closed_Cases_ibfk_6` FOREIGN KEY (`WonID_Client`) REFERENCES `Clients` (`ID`),
+  CONSTRAINT `Closed_Cases_ibfk_7` FOREIGN KEY (`WonID_Lawyer`) REFERENCES `Lawyers` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
