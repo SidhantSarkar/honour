@@ -130,3 +130,5 @@ dmypy.json
 
 # Remove pip lock
 *.lock
+
+.vscode

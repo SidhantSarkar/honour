@@ -1,33 +1,6 @@
-import json
 import datetime    
-
+from init import selectWrapper,insertUpdateDeleteWrapper
 # datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-cursor = None
-
-def selectWrapper(select, params):
-    try:
-        cursor.execute(select, params)
-        res = cursor.fetchall()
-        headers=[x[0] for x in cursor.description]
-        json_data=[]
-        for result in res:
-            json_data.append(dict(zip(headers,result)))
-        result = {'res': 'ok', 'arr': json_data}
-        return json.dumps(result)
-
-    except Exception as e:
-        return json.dumps({'res': 'failed', 'err': str(e)})
-
-def insertUpdateDeleteWrapper(insert, params):
-    try:        
-        cursor.execute(insert, params)
-
-        if(cursor.rowcount):
-            return json.dumps({'res': 'success'})
-        else:
-            return json.dumps({'res': 'failed'})
-    except Exception as e:
-        return json.dumps({'res': 'failed', 'err': str(e)})
 
 def showLawyers(spec_area):
     '''CLIENT: search for lawyer'''

@@ -1,5 +1,4 @@
-from client import selectWrapper
-from client import insertUpdateDeleteWrapper
+from init import selectWrapper, insertUpdateDeleteWrapper
 #import client
 import json
 import datetime

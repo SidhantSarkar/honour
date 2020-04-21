@@ -1,5 +1,7 @@
 import client
+import init
 import mysql.connector as mysql
+import lawyer
 
 mydb = mysql.connect(
         host='localhost',
@@ -10,6 +12,7 @@ mydb = mysql.connect(
         autocommit=True
     )
 
-client.cursor = mydb.cursor()
+init.cursor = mydb.cursor()
 
-print(client.showLawyers('crime'))
+# print(client.showLawyers('crime'))
+print(lawyer.getClosedCases())
