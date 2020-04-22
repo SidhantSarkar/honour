@@ -1,8 +1,5 @@
 from init import selectWrapper, insertUpdateDeleteWrapper
-#import client
 import json
-import datetime
-#import mysql.connector
 
 def PrevCasesCNRno(CNR):
 	'''JUDGE: See Previous Judgments based on CNR No.'''
@@ -18,7 +15,7 @@ def PrevCasesAct(Act):
 
 def Schedule(J_ID):
 	'''JUDGE: See Schedule for the day'''
-	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN CURDATE() 00:00:00 AND CURDATE() 23:59:59 AND JudgeID = %s"
+	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN 'CURDATE() 00:00:00' AND 'CURDATE() 23:59:59' AND JudgeID = %s"
 	param = (J_ID,)
 	return selectWrapper(query, param)
 
@@ -53,6 +50,13 @@ def AnnounceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	result = json.loads(result_j) #dictionary of the values
 
 	query = "DELETE from Hearings WHERE CNRno=%s"
+	param = (CNR,)
+	res = insertUpdateDeleteWrapper(query, param)
+	res = json.loads(res)
+	if(res['res'] == 'failed'):
+		return res
+
+	query = "DELETE from Lawyer_Client WHERE CNRno=%s"
 	param = (CNR,)
 	res = insertUpdateDeleteWrapper(query, param)
 	res = json.loads(res)
@@ -94,7 +98,7 @@ def ViewPendingCases():
 	return selectWrapper(query,param)
 
 
-def AcceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, AccID, AccSt, Acts):
+def AcceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts, AccID=None, AccSt=""):
 	'''JUDGE: Accept a pending case'''
 
 	query = "SELECT Victim_LawyerID, Accused_LawyerID from Pending_Cases where FilingNo=%s"
@@ -102,6 +106,7 @@ def AcceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, AccI
 	lawyers = selectWrapper(query, param)
 	lawyers = json.loads(lawyers)
 	lawyers = lawyers['arr'][0] #extract corresponding lawyers
+	print(lawyers)
 
 	#delete from pending cases
 	query = "SET FOREIGN_KEY_CHECKS = 0"
@@ -134,22 +139,21 @@ def AcceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, AccI
 	param = (Filno,)
 	res = selectWrapper(query, param)
 	res = json.loads(res)
-	res = res['arr'][0]
+	res = res['arr'][-1]
 
 	CNR = res['CNRno']
 	query = "INSERT into Lawyer_Client(LawyerID, ClientID, CNRno, Side) VALUES(%s,%s,%s,0)"
 	param = (lawyers['Victim_LawyerID'], VicID, CNR)
 	result = insertUpdateDeleteWrapper(query, param)
 
+	if(AccID!=None):
+		query = "INSERT into Lawyer_Client(LawyerID, ClientID, CNRno, Side) VALUES(%s,%s,%s,1)"
+		param = (lawyers['Accused_LawyerID'], AccID, CNR)
+		result = insertUpdateDeleteWrapper(query, param)
+
 	#add to hearings
 	query = "INSERT into Hearings(Date, CNRno, Prev_date, Purpose) VALUES(%s,%s,null,'First Hearing')"
 	param = (firstHear, CNR)
 	result = insertUpdateDeleteWrapper(query, param)
+	
 	return result
-
-
-#client.cursor = mydb.cursor()
-#print(AnnounceVerdict('12','3','2','efgg','dfe','3','2'))
-#print(SetHearing('12','2020-01-01','2020-12-12',"Dance"))
-#print(ViewPendingCases())
-#print(AcceptCase('2','2007-01-03','2010-12-12','trial','2','2','2','im hurt','12','i didnt hit','12345'))
