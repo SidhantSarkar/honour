@@ -1,6 +1,7 @@
 from init import selectWrapper, insertUpdateDeleteWrapper
 import json
 
+
 def FileFIR(FIRno, Filno, InsName, Desc):
 	'''OFFICER: File FIR'''
 	query = "INSERT into FIR(FIRno, FilingNo, InspectorName, Description) values(%s,%s,%s,%s)"
