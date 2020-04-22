@@ -49,26 +49,21 @@ def AnnounceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	result_j = ViewCase(CNR) #values extracted from Active_Cases
 	result = json.loads(result_j) #dictionary of the values
 
-	query = "DELETE from Hearings WHERE CNRno=%s"
-	param = (CNR,)
+	query = "SET FOREIGN_KEY_CHECKS = 0"
+	param = ()
 	res = insertUpdateDeleteWrapper(query, param)
-	res = json.loads(res)
-	if(res['res'] == 'failed'):
-		return res
-
-	query = "DELETE from Lawyer_Client WHERE CNRno=%s"
-	param = (CNR,)
-	res = insertUpdateDeleteWrapper(query, param)
-	res = json.loads(res)
-	if(res['res'] == 'failed'):
-		return res
 
 	query = "DELETE from Active_Cases WHERE CNRno=%s"
 	param = (CNR,)
+	res1 = insertUpdateDeleteWrapper(query, param)
+	res1 = json.loads(res1)
+
+	query = "SET FOREIGN_KEY_CHECKS = 1"
+	param = ()
 	res = insertUpdateDeleteWrapper(query, param)
-	res = json.loads(res)
-	if(res['res'] == 'failed'):
-		return res
+	
+	if(res1['res'] == 'failed'):
+		return res1
 	
 	if(result['res'] == 'ok'):
 		values = result['arr'][0]
@@ -106,7 +101,6 @@ def AcceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 	lawyers = selectWrapper(query, param)
 	lawyers = json.loads(lawyers)
 	lawyers = lawyers['arr'][0] #extract corresponding lawyers
-	print(lawyers)
 
 	#delete from pending cases
 	query = "SET FOREIGN_KEY_CHECKS = 0"
