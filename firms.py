@@ -63,7 +63,7 @@ def LawyerPerformance(L_ID):
 		return loses
 	else:
 		n_loses = loses['arr'][0]
-	return json.dumps({'res': 'ok', 'arr':[{'wins': n_wins['wins'], 'loses': n_loses['loses']}]})
+	return json.dumps({'res': 'ok', 'arr':[{'LawyerID':L_ID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]})
 
 
 def EarningByClients(F_ID, date):
@@ -100,4 +100,4 @@ def WinsLoses(F_ID):
 	else:
 		n_loses = loses['arr'][0]
 
-	return json.dumps({'res': 'ok', 'arr':[{'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]})
+	return json.dumps({'res': 'ok', 'arr':[{'FirmID':F_ID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]})
