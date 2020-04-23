@@ -1,5 +1,6 @@
 import datetime    
-from init import selectWrapper,insertUpdateDeleteWrapper
+from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
+
 # datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 def showLawyers(spec_area):
@@ -59,14 +60,14 @@ def addDocument(ClientID, Filing_No, Document):
 
 def getActiveCases(User_ID):
     '''CLIENT: get active cases'''
-    query = 'SELECT * FROM Active_Cases WHERE VictimID = %s OR AccusedID = %s'
+    query = 'SELECT * FROM Active_Cases WHERE CNRno in (SELECT DISTINCT(CNRno) FROM Lawyer_Client WHERE ClientID = %s)'
     param = (User_ID,)
     return selectWrapper(query, param)
 
 def getPendindCases(User_ID):
     '''CLIENT: get pending cases'''
     query = 'SELECT * FROM Pending_Cases WHERE VictimID = %s OR AccusedID = %s AND is_Verified = 0'
-    param = (User_ID,)
+    param = (User_ID, User_ID)
     return selectWrapper(query, param)
 
 def withdrawCase(Case_ID, User_ID):

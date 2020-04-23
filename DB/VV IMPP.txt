@@ -1,0 +1,131 @@
+- (*) Add type of case in Pending Cases / Overflow to Active and then Closed Cases (Criminal/Civil  -- Boolean)
+- (*) Add ratings field in Lawyers and LawFirm (Float out of 5)(Think how rating wala would work)
+- (*) Add moneyRange in Lawyers and LawFirm    (INT 5)
+- (*) Remove Acts in pending cases
+- (-) Create a streamline link for a Accused victim to get on board
+- (*) REMOVE ----- REQUEST TO TRANSFER TO HIGHER COURT
+- (*) ADD active/pending cases user view in CLIENT
+- (*) ADD next and previous hearing in Active_Cases
+- (-) create a table for all sort of requests to other users
+- (*) Add Fee (INT), isPaid (BOOLEAN), isRequested (BOOLEAN), datePaid(Datetime) Field in Lawyer_Client
+- (-) View previous payments for clients
+- (*) Make Request to Lawyers for Clients
+- (*) Create table for request lawyers (Client_ID, Lawyer_ID, Client_Note, [Filing NO], Quotation, Status)
+- (-) Rating Table for Lawyers
+- (*) victim_lawyer_id, accused_lawyer_id in Pending Cases
+- (*) doc_uploaded_victim, doc_uploaded_accused (Boolean) in Pending Cases
+- (*) is_verified_police, is_verified_nodal (Boolean) in Pending Cases
+- (*) firno in Pending Cases
+- (*) ADD active/pending cases user view in LAWYER
+- (*) Judges - SET Next Hearing Date
+- (*) Judges - add/edit to hearings Table
+- (*) Judges - REMOVE - previous case verdict for same case
+- (*) Judges - Choose Case and Give First Hearing
+- (*) Officers - add/edit to hearings Table
+- (*) Law Firms - remove pro bono
+- (*) Law Firms - Yearly/Quaterly/Monthly - Earnings by Lawyers/by Clients
+- (*) Law Firms - Yearly/Quaterly/Monthly - Total earnings
+- (*) Law Firms - Check for additional Demographics like total wins and loses
+- (*) Closed_Cases - ADD WIN COLUMN
+- (*) CREATE TABLE for request firms (Client_ID, Firm_ID, Client_Note, [Filing NO], Quotation, Status)
+- (-) status check on requests
+
+---- Clients -----
+1.a. SELECT * FROM Lawyers WHERE Spec_Area = 'type_of_Case' OR Spec_Area IS NULL ORDER BY rating DESC, Fees_range ASC;
+1.b. SELECT * FROM Firms WHERE Spec_Area = 'crime' OR Spec_Area IS NULL ORDER BY rating DESC, Fees_range ASC;
+  INSERT INTO Lawyer_request (Client_ID, Lawyer_ID, Client_Note, Quotation, [Filing NO]) VALUES (formdata);
+  INSERT INTO firm_request (Client_ID, Lawyer_ID, Client_Note, Quotation, [Filing NO]) VALUES (formdata);
+
+2. INSERT INTO Documents (ClientID, Filing No, Document) VALUES (val1, val2, val3);
+
+3/4. SELECT * FROM Active_Cases WHERE VictimID = 'User_ID' OR AccusedID = 'User_ID';
+SELECT * FROM Pending_Cases WHERE VictimID = 'User_ID' OR AccusedID = 'User_ID' AND is_Verified = 0;
+
+6. - DELETE FROM Pending_Cases WHERE FilingNo = 'form_data'(Do Not Allow Accused to withdraw)
+- { DELETE FROM Active_Cases WHERE CNRno = 'form_data';
+    DELETE FROM Lawyer_Client WHERE CNRno = 'form_data';
+  }
+
+7. a. SELECT * FROM Lawyer_Client WHERE ClientID = 'User_ID' AND isPaid = 'False' AND isRequested = 'True';
+   b. UPDATE Lawyer_Client SET isPaid = 'True', datePaid = 'DATETIMENOW' WHERE ClientID = 'User_ID' AND LawyerID = 'Lawyer_ID' AND CNRno = 'CNRno';
+
+
+---- Lawyers -----
+1/2. a. SELECT * FROM lawyer_request WHERE Lawyer_ID='User_ID' AND Status IS NULL;
+     b.  i. UPDATE lawyer_request SET Status = 'Approve/Reject' WHERE Lawyer_ID='User_ID' AND Client_ID='formdata';
+        ii. INSERT INTO Pending_Cases (VictimID, victim_lawyer_id, AccusedID) VALUES (FormDAta);
+       iii. UPDATE Pending_Cases SET accused_lawyer_id = 'ID' WHERE FilingNo = 'ID';
+
+VIEWS:
+SELECT * FROM Pending_Cases WHERE victim_lawyer_id = 'User_ID' OR accused_lawyer_id = 'User_ID';	
+SELECT * FROM Active_Cases WHERE CNRno in (SELECT DISTINCT CNRno FROM Lawyer_Client WHERE LawyerID = 'User_ID');
+
+3. SELECT * FROM Active_Cases WHERE NextHearing BETWEEN 'TODAYDATE 00:00:00' AND 'TODAYDATE 23:59:59' AND CNRno in (SELECT DISTINCT CNRno FROM Lawyer_Client WHERE LawyerID = 'User_ID');
+
+4. SELECT * FROM Closed_Cases;
+
+5. SELECT * FROM Hearings WHERE CNRno = 'FORMDATA';
+
+6. SELECT * FROM Lawyer_Client WHERE LawyerID = 'User_ID' AND isRequested = 'False';
+   UPDATE Lawyer_Client SET isRequested = 'True', Fee = 'FormData' WHERE ClientID = 'User_ID' AND LawyerID = 'Lawyer_ID' AND CNRno = 'CNRno';
+
+
+---- Judges ----
+1. SELECT * FROM Closed_Cases;
+
+2. SELECT * FROM Active_Cases WHERE NextHearing BETWEEN 'TODAYDATE 00:00:00' AND 'TODAYDATE 23:59:59' AND CNRno in (SELECT DISTINCT CNRno FROM Judge_Case WHERE JudgeID = 'User_ID');
+
+4. SELECT * FROM Closed_Cases WHERE CNRno in (SELECT DISTINCT CNRno FROM Lawyer_Client WHERE LawyerID = 'FormID');
+
+5. SELECT * FROM Closed_Cases WHERE CNRno in (SELECT DISTINCT CNRno FROM Lawyer_Client WHERE ClientID = 'FormID');
+
+6. DELETE FROM Active_Cases WHERE CNRNo = 'Formdata';
+   INSERT INTO Closed_Cases (CNRno, ........) VALUES (...);
+
+7. UPDATE Active_Cases SET NextHearingDate = 'Formdata', PrevHearingDate = 'FormData' WHERE CNRno = 'FormData';
+
+8. SELECT * FROM Pending_Cases WHERE is_verified_police, is_verified_nodal = 'TRUE';
+   INSERT INTO Active_Cases (...) VALUE (...);
+   INSERT INTO Lawyer_Client (...) VALUE (...); x2
+
+9. INSERT INTO Hearing (...) VALUE (...);
+
+---- Law Firms ----
+1. SELECT * FROM Clients WHERE ID in (SELECT Client_ID FROM firm_request WHERE Firm_ID = 'FormData' AND Staus = 'Approved');
+
+2. SELECT * FROM firm_request WHERE Firm_ID='User_ID' AND STATUS IS NULL;
+   SELECT * FROM Lawyers WHERE FirmID = 'user_ID';
+   UPDATE firm_request SET Status = 'Approve/Reject' WHERE Firm_ID='User_ID' AND Client_ID='formdata';
+   INSERT INTO lawyer_request (Client_ID, Lawyer_ID, Client_Note, Quotation, [Filing NO]) VALUES (formdata);
+
+SELECT ID FROM Lawyers WHERE FirmID = 'FormData';
+3. SELECT * FROM Closed_Cases WHERE Lawyer_ID = 'FormData';
+
+ref[https://www.geeksforgeeks.org/difference-between-where-and-group-by/]
+4. a. SELECT ClientID, SUM(Fee) FROM Lawyer_Client WHERE datePaid >= 'SOMEDATE' AND datePaid <= 'SOMEDATE' ClientID in (SELECT Client_ID FROM firm_request WHERE Firm_ID = 'FormData' AND Staus = 'Approved') GROUP BY ClientID ORDER BY SUM(Fee) DESC;
+   b. SELECT LawyerID, SUM(Fee) FROM Lawyer_Client WHERE datePaid >= 'SOMEDATE' AND datePaid <= 'SOMEDATE' LawyerID in (SELECT ID FROM Lawyers WHERE FirmID = 'FormData') GROUP BY ClientID ORDER BY SUM(Fee) DESC;
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,5 @@
-from init import selectWrapper,insertUpdateDeleteWrapper
+# from init import selectWrapper,insertUpdateDeleteWrapper
+from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 import json
 
 def getRequests(Lawyer_Id):
