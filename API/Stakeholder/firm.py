@@ -3,7 +3,7 @@ from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 import json
 
 
-def SearchClients(F_ID):
+def searchClients(F_ID):
 	'''FIRM: Search about its clients'''
 	query = "SELECT * from Clients where ID in (SELECT ClientID from Firm_Request where FirmID = %s and Status = 1)"
 	param = (F_ID,)
@@ -24,7 +24,7 @@ def getLawyers(F_ID):
 	return selectWrapper(query, param)
 
 
-def AppointLawyer(F_ID, C_ID, Status, L_ID=""):
+def appointLawyer(F_ID, C_ID, Status, L_ID=""):
 	'''FIRM: Appoint a lawyer to a client'''
 	query = "UPDATE Firm_Request SET Status = %s where FirmID = %s and ClientID = %s"
 	param = (Status, F_ID, C_ID,)
@@ -45,7 +45,7 @@ def AppointLawyer(F_ID, C_ID, Status, L_ID=""):
 			return insertUpdateDeleteWrapper(query, param)
 
 
-def LawyerPerformance(L_ID):
+def lawyerPerformance(L_ID):
 	'''FIRM: Look at lawyer's performance'''
 	query = "SELECT COUNT(*) as 'wins' from Closed_Cases where WonID_Lawyer = %s"
 	param = (L_ID,)
@@ -67,21 +67,21 @@ def LawyerPerformance(L_ID):
 	return json.dumps({'res': 'ok', 'arr':[{'LawyerID':L_ID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]})
 
 
-def EarningByClients(F_ID, date):
+def earningByClients(F_ID, date):
 	'''FIRM: Look at overall earning based on clients'''
 	query = "SELECT ClientID, SUM(Fee) from Lawyer_Client where datePaid>=%s and datePaid<=CURDATE() and ClientID in (SELECT ClientID from Firm_Request where FirmID=%s and Status = 1) GROUP BY ClientID  ORDER BY SUM(Fee) DESC"
 	param = (date, F_ID,)
 	return selectWrapper(query, param)
 
 
-def EarningByLawyers(F_ID, date):
+def earningByLawyers(F_ID, date):
 	'''FIRM: Look at overall earning based on Lawyers'''
 	query = "SELECT LawyerID, SUM(Fee) from Lawyer_Client where datePaid>=%s and datePaid<=CURDATE() and LawyerID in (SELECT ID from Lawyers where FirmID=%s) GROUP BY LawyerID  ORDER BY SUM(Fee) DESC"
 	param = (date, F_ID,)
 	return selectWrapper(query, param)
 
 
-def WinsLoses(F_ID):
+def winsLoses(F_ID):
 	'''FIRM: Look at total wins and loses'''
 	query = "SELECT COUNT(*) as 'Wins' from Closed_Cases where WonID_Lawyer in (SELECT ID from Lawyers where FirmID = %s)"
 	param = (F_ID,)
