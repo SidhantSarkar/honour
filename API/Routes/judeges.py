@@ -5,123 +5,123 @@ from API.Routes import dataSource, validateResponse
 import API.Stakeholder.judge as judge
 from API import api
 
-@api.route('/judge/PrevCasesCNRno', methods=['POST'])
-def judge_PrevCasesCNRno():
+@api.route('/judge/prevCasesCNRno', methods=['POST'])
+def judge_prevCasesCNRno():
     res = dataSource(request)
-    params = inspect.getargspec(judge.PrevCasesCNRno).args
+    params = inspect.getargspec(judge.prevCasesCNRno).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.PrevCasesCNRno(**res)
+    return judge.prevCasesCNRno(**res)
 
-@api.route('/judge/PrevCasesAct', methods=['POST'])
-def judge_PrevCasesAct():
+@api.route('/judge/prevCasesAct', methods=['POST'])
+def judge_prevCasesAct():
     res = dataSource(request)
-    params = inspect.getargspec(judge.PrevCasesAct).args
+    params = inspect.getargspec(judge.prevCasesAct).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.PrevCasesAct(**res)
+    return judge.prevCasesAct(**res)
 
-@api.route('/judge/Schedule', methods=['POST'])
-def judge_Schedule():
+@api.route('/judge/schedule', methods=['POST'])
+def judge_schedule():
     res = dataSource(request)
-    params = inspect.getargspec(judge.Schedule).args
+    params = inspect.getargspec(judge.schedule).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.Schedule(**res)
+    return judge.schedule(**res)
 
-@api.route('/judge/LawyerTrackRecord', methods=['POST'])
-def judge_LawyerTrackRecord():
+@api.route('/judge/lawyerTrackRecord', methods=['POST'])
+def judge_lawyerTrackRecord():
     res = dataSource(request)
-    params = inspect.getargspec(judge.LawyerTrackRecord).args
+    params = inspect.getargspec(judge.lawyerTrackRecord).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.LawyerTrackRecord(**res)
+    return judge.LawyerlrackRecord(**res)
 
-@api.route('/judge/ClientTrackRecord', methods=['POST'])
-def judge_ClientTrackRecord():
+@api.route('/judge/clientTrackRecord', methods=['POST'])
+def judge_clientTrackRecord():
     res = dataSource(request)
-    params = inspect.getargspec(judge.ClientTrackRecord).args
+    params = inspect.getargspec(judge.clientTrackRecord).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.ClientTrackRecord(**res)
+    return judge.clientTrackRecord(**res)
 
-@api.route('/judge/ViewCase', methods=['POST'])
-def judge_ViewCase():
+@api.route('/judge/viewCase', methods=['POST'])
+def judge_viewCase():
     res = dataSource(request)
-    params = inspect.getargspec(judge.ViewCase).args
+    params = inspect.getargspec(judge.viewCase).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.ViewCase(**res)
+    return judge.viewCase(**res)
 
-@api.route('/judge/ViewActiveCases', methods=['POST'])
-def judge_ViewActiveCases():
+@api.route('/judge/viewActiveCases', methods=['POST'])
+def judge_viewActiveCases():
     res = dataSource(request)
-    params = inspect.getargspec(judge.ViewActiveCases).args
+    params = inspect.getargspec(judge.viewActiveCases).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.ViewActiveCases(**res)
+    return judge.viewActiveCases(**res)
 
-@api.route('/judge/AnnounceVerdict', methods=['POST'])
-def judge_AnnounceVerdict():
+@api.route('/judge/announceVerdict', methods=['POST'])
+def judge_announceVerdict():
     res = dataSource(request)
-    params = inspect.getargspec(judge.AnnounceVerdict).args
+    params = inspect.getargspec(judge.announceVerdict).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.AnnounceVerdict(**res)
+    return judge.announceVerdict(**res)
 
-@api.route('/judge/SetHearing', methods=['POST'])
-def judge_SetHearing():
+@api.route('/judge/setHearing', methods=['POST'])
+def judge_setHearing():
     res = dataSource(request)
-    params = inspect.getargspec(judge.SetHearing).args
+    params = inspect.getargspec(judge.setHearing).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.SetHearing(**res)
+    return judge.setHearing(**res)
 
-@api.route('/judge/ViewPendingCases', methods=['POST'])
-def judge_ViewPendingCases():
+@api.route('/judge/viewPendingCases', methods=['POST'])
+def judge_viewPendingCases():
     res = dataSource(request)
-    params = inspect.getargspec(judge.ViewPendingCases).args
+    params = inspect.getargspec(judge.viewPendingCases).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.ViewPendingCases(**res)
+    return judge.viewPendingCases(**res)
 
-@api.route('/judge/AcceptCase', methods=['POST'])
-def judge_AcceptCase():
+@api.route('/judge/acceptCase', methods=['POST'])
+def judge_acceptCase():
     res = dataSource(request)
-    params = inspect.getargspec(judge.AcceptCase).args
+    params = inspect.getargspec(judge.acceptCase).args
 
     # check params should be in res
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.AcceptCase(**res)
+    return judge.acceptCase(**res)
