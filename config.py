@@ -1,8 +1,8 @@
 db_setting = {
-    'host' : 'localhost',
+    'host' : 'remotemysql.com',
     'port' : 3306,
-    'user' : 'user',
-    'passwd' : 'user123',
-    'database' : 'ecourt',
+    'user' : 'E1C0vcc33H',
+    'passwd' : 'qTjpeu0lbl',
+    'database' : 'E1C0vcc33H',
     'autocommit' : True
 }
