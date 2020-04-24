@@ -2,49 +2,49 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 import json
 
-def PrevCasesCNRno(CNR):
+def prevCasesCNRno(CNR):
 	'''JUDGE: See Previous Judgments based on CNR No.'''
 	query = 'SELECT * from Closed_Cases WHERE CNRno=%s'
 	param = (CNR,)
 	return selectWrapper(query, param)
 
-def PrevCasesAct(Act):
+def prevCasesAct(Act):
 	'''JUDGE: See previous judgements based on Act'''
 	query = "SELECT * from Closed_Cases WHERE Acts like %s"
 	param = ("%"+Act+"%",)
 	return selectWrapper(query, param)
 
-def Schedule(J_ID):
+def schedule(J_ID):
 	'''JUDGE: See Schedule for the day'''
 	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN 'CURDATE() 00:00:00' AND 'CURDATE() 23:59:59' AND JudgeID = %s"
 	param = (J_ID,)
 	return selectWrapper(query, param)
 
-def LawyerTrackRecord(L_ID):
+def lawyerTrackRecord(L_ID):
 	'''JUDGE: Track record of a Lawyer'''
 	query = "SELECT * from Closed_Cases where Victim_LawyerID = %s OR Accused_LawyerID = %s"
 	param = (L_ID, L_ID,)
 	return selectWrapper(query, param)
 
-def ClientTrackRecord(C_ID):
+def clientTrackRecord(C_ID):
 	'''JUDGE: Track record of a Client'''
 	query = "SELECT * from Closed_Cases where VictimID = %s OR AccusedID = %s"
 	param = (C_ID, C_ID)
 	return selectWrapper(query, param)
 
-def ViewCase(CNRno):
+def viewCase(CNRno):
 	'''JUDGE: View details of an Active case'''
 	query = "SELECT * from Active_Cases where CNRno=%s"
 	param = (CNRno,)
 	return selectWrapper(query, param)
 
-def ViewActiveCases(J_ID):
+def viewActiveCases(J_ID):
 	'''JUDGE: View ongoing Active Cases'''
 	query = "SELECT * from Active_Cases where JudgeID=%s"
 	param = (J_ID,)
 	return selectWrapper(query, param)
 
-def AnnounceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
+def announceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	'''JUDGE: Announce final verdict for a case'''
 	result_j = ViewCase(CNR) #values extracted from Active_Cases
 	result = json.loads(result_j) #dictionary of the values
@@ -71,7 +71,7 @@ def AnnounceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 		param = (CNR, values['FilingNo'], values['FilingDate'], values['JudgeID'], values['VictimID'], Vic_L_ID, values['AccusedID'], Acc_L_ID, CaseStmt, values['Acts'], Verdict, WinC, WinL,)
 		return insertUpdateDeleteWrapper(query, param)
 
-def SetHearing(CNR, PrevDate, NextDate, Purpose):
+def setHearing(CNR, PrevDate, NextDate, Purpose):
 	'''JUDGE: Set the date for next Hearing'''
 	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s WHERE CNRno = %s"
 	param = (NextDate, PrevDate, CNR,)
@@ -84,13 +84,13 @@ def SetHearing(CNR, PrevDate, NextDate, Purpose):
 	param = (NextDate, CNR, PrevDate, Purpose)
 	return insertUpdateDeleteWrapper(query, param)
 
-def ViewPendingCases():
+def viewPendingCases():
 	'''JUDGE: View approved pending cases'''
 	query = "SELECT * from Pending_Cases where is_Verified = 1"
 	param = ()
 	return selectWrapper(query,param)
 
-def AcceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts, AccID=None, AccSt=""):
+def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts, AccID=None, AccSt=""):
 	'''JUDGE: Accept a pending case'''
 
 	query = "SELECT Victim_LawyerID, Accused_LawyerID from Pending_Cases where FilingNo=%s"
