@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse
+from API.Routes import dataSource, validateResponse, convertToJson
 
 import API.Stakeholder.client as client
 from API import api
@@ -14,7 +14,7 @@ def client_showLawyers():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.showLawyers(**res)
+    return convertToJson(client.showLawyers(**res))
 
 @api.route('/client/showFirms', methods=['POST'])
 def client_showFirms():
@@ -25,7 +25,7 @@ def client_showFirms():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.showFirms(**res)
+    return convertToJson(client.showFirms(**res))
 
 @api.route('/client/lawyerRequest', methods=['POST'])
 def client_lawyerRequest():
@@ -36,7 +36,7 @@ def client_lawyerRequest():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.lawyerRequest(**res)
+    return convertToJson(client.lawyerRequest(**res))
 
 @api.route('/client/firmRequest', methods=['POST'])
 def client_firmRequest():
@@ -47,7 +47,7 @@ def client_firmRequest():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.firmRequest(**res)
+    return convertToJson(client.firmRequest(**res))
 
 @api.route('/client/addDocument', methods=['POST'])
 def client_addDocument():
@@ -58,7 +58,7 @@ def client_addDocument():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.addDocument(**res)
+    return convertToJson(client.addDocument(**res))
 
 @api.route('/client/getActiveCases', methods=['POST'])
 def client_getActiveCases():
@@ -69,7 +69,7 @@ def client_getActiveCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.getActiveCases(**res)
+    return convertToJson(client.getActiveCases(**res))
 
 @api.route('/client/getPendindCases', methods=['POST'])
 def client_getPendindCases():
@@ -80,7 +80,7 @@ def client_getPendindCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.getPendindCases(**res)
+    return convertToJson(client.getPendindCases(**res))
 
 @api.route('/client/withdrawCase', methods=['POST'])
 def client_withdrawCase():
@@ -91,7 +91,7 @@ def client_withdrawCase():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.withdrawCase(**res)
+    return convertToJson(client.withdrawCase(**res))
 
 @api.route('/client/viewPaymentRequests', methods=['POST'])
 def client_viewPaymentRequests():
@@ -102,7 +102,7 @@ def client_viewPaymentRequests():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.viewPaymentRequests(**res)
+    return convertToJson(client.viewPaymentRequests(**res))
 
 @api.route('/client/makePayment', methods=['POST'])
 def client_makePayment():
@@ -113,4 +113,4 @@ def client_makePayment():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return client.makePayment(**res)
+    return convertToJson(client.makePayment(**res))

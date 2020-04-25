@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse
+from API.Routes import dataSource, validateResponse, convertToJson
 
 import API.Stakeholder.lawyer as lawyer
 from API import api
@@ -14,7 +14,7 @@ def lawyer_getRequests():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.getRequests(**res)
+    return convertToJson(lawyer.getRequests(**res))
 
 @api.route('/lawyer/updateStatus', methods=['POST'])
 def lawyer_updateStatus():
@@ -25,7 +25,7 @@ def lawyer_updateStatus():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.updateStatus(**res)
+    return convertToJson(lawyer.updateStatus(**res))
 
 @api.route('/lawyer/attachAccusedLawyer', methods=['POST'])
 def lawyer_attachAccusedLawyer():
@@ -36,7 +36,7 @@ def lawyer_attachAccusedLawyer():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.attachAccusedLawyer(**res)
+    return convertToJson(lawyer.attachAccusedLawyer(**res))
 
 @api.route('/lawyer/getPendingCases', methods=['POST'])
 def lawyer_getPendingCases():
@@ -47,7 +47,7 @@ def lawyer_getPendingCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.getPendingCases(**res)
+    return convertToJson(lawyer.getPendingCases(**res))
 
 @api.route('/lawyer/getActiveCases', methods=['POST'])
 def lawyer_getActiveCases():
@@ -58,7 +58,7 @@ def lawyer_getActiveCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.getActiveCases(**res)
+    return convertToJson(lawyer.getActiveCases(**res))
 
 @api.route('/lawyer/todaySchedule', methods=['POST'])
 def lawyer_todaySchedule():
@@ -69,7 +69,7 @@ def lawyer_todaySchedule():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.todaySchedule(**res)
+    return convertToJson(lawyer.todaySchedule(**res))
 
 @api.route('/lawyer/getClosedCases', methods=['POST'])
 def lawyer_getClosedCases():
@@ -80,7 +80,7 @@ def lawyer_getClosedCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.getClosedCases(**res)
+    return convertToJson(lawyer.getClosedCases(**res))
 
 @api.route('/lawyer/getPrevHearings', methods=['POST'])
 def lawyer_getPrevHearings():
@@ -91,7 +91,7 @@ def lawyer_getPrevHearings():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.getPrevHearings(**res)
+    return convertToJson(lawyer.getPrevHearings(**res))
 
 @api.route('/lawyer/getNotPaidClients', methods=['POST'])
 def lawyer_getNotPaidClients():
@@ -102,7 +102,7 @@ def lawyer_getNotPaidClients():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.getNotPaidClients(**res)
+    return convertToJson(lawyer.getNotPaidClients(**res))
 
 @api.route('/lawyer/createPaymentRequest', methods=['POST'])
 def lawyer_createPaymentRequest():
@@ -113,4 +113,4 @@ def lawyer_createPaymentRequest():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return lawyer.createPaymentRequest(**res)
+    return convertToJson(lawyer.createPaymentRequest(**res))

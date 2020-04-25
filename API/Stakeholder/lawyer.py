@@ -1,14 +1,12 @@
-# from init import selectWrapper,insertUpdateDeleteWrapper
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
-import json
 
 def getRequests(Lawyer_Id):
-    query = 'SELECT * FROM lawyer_request WHERE LawyerID = %s AND Status = 0'
+    query = 'SELECT * FROM Lawyer_Request WHERE LawyerID = %s AND Status = 0'
     param = (Lawyer_Id,)
     return selectWrapper(query, param)
 
 def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type=''):
-    query = 'UPDATE lawyer_request SET Status = %s WHERE LawyerID = %s AND ClientID = %s' 
+    query = 'UPDATE Lawyer_Request SET Status = %s WHERE LawyerID = %s AND ClientID = %s' 
     param = (Status, Lawyer_Id, Client_Id)
     res = insertUpdateDeleteWrapper(query, param)
 
@@ -22,7 +20,7 @@ def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type=''):
         # CRIME
         else:
             if(not Accussed_Id):
-                return json.dump({'res':'failed'})
+                return {'res':'failed'}
             
             query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, AccusedID, Type) VALUES (CURDATE(), %s, %s, %s, %s)'
             param = (Client_Id, Lawyer_Id, Accussed_Id, Type)

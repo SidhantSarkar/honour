@@ -1,14 +1,7 @@
 import json
-import datetime
 from flask import jsonify, Flask
 
 cursor = None
-
-def myconverter(o):
-    if isinstance(o, datetime.date):
-        return o.__str__()
-    if isinstance(o, datetime.datetime):
-        return o.__str__()
 
 def selectWrapper(select, params):
     try:
@@ -18,12 +11,11 @@ def selectWrapper(select, params):
         json_data=[]
         for result in res:
             json_data.append(dict(zip(headers,result)))
-        result = {'res': 'ok', 'arr': json_data}
-        resp = Flask.response_class(response=json.dumps(result, default = myconverter), status=200, mimetype='application/json')
+        resp = {'res': 'ok', 'arr': json_data}
         return resp
 
     except Exception as e:
-        resp = Flask.response_class(response=json.dumps({'res': 'failed', 'err': str(e)}, default = myconverter), status=400, mimetype='application/json')
+        resp = {'res': 'failed', 'err': str(e)}
         return resp
 
 def insertUpdateDeleteWrapper(insert, params):
@@ -31,14 +23,14 @@ def insertUpdateDeleteWrapper(insert, params):
         cursor.execute(insert, params)
 
         if(cursor.rowcount):
-            resp = Flask.response_class(response=json.dumps({'res': 'success'}), status=200, mimetype='application/json')
+            resp = {'res': 'success'}
             return resp
         else:
-            resp = Flask.response_class(response=json.dumps({'res': 'failed'}), status=400, mimetype='application/json')
+            resp = {'res': 'failed'}
             return resp
             
     except Exception as e:
-        resp = Flask.response_class(response=json.dumps({'res': 'failed', 'err': str(e)}, default = myconverter), status=400, mimetype='application/json')
+        resp = {'res': 'failed', 'err': str(e)}
         return resp
 
 # # Handle circular imports
