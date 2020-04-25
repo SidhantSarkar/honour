@@ -72,15 +72,34 @@ def getPendindCases(User_ID):
 
 def withdrawCase(Case_ID, User_ID):
     '''CLIENT: withdraw cases'''
+
+    query = "SET FOREIGN_KEY_CHECKS = 0"
+    param = ()
+    res1 = insertUpdateDeleteWrapper(query, param)
+
     query = 'DELETE FROM Pending_Cases WHERE FilingNo = %s AND VictimID = %s AND is_Verified = 0'
     param = (Case_ID, User_ID)
     res = insertUpdateDeleteWrapper(query, param)
+
+    query = "SET FOREIGN_KEY_CHECKS = 1"
+    param = ()
+    res1 = insertUpdateDeleteWrapper(query, param)
     
     if(res['res'] == 'failed'):
         if('err' not in res.keys()):
+            
+            query = "SET FOREIGN_KEY_CHECKS = 0"
+            param = ()
+            res1 = insertUpdateDeleteWrapper(query, param)
+
             query = 'DELETE FROM Active_Cases WHERE CNRno = %s'
             param = (Case_ID,)
             res = insertUpdateDeleteWrapper(query, param)
+            
+            query = "SET FOREIGN_KEY_CHECKS = 1"
+            param = ()
+            res1 = insertUpdateDeleteWrapper(query, param)
+
             return res
         return res
     return res
