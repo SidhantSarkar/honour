@@ -5,7 +5,7 @@ def getRequests(Lawyer_Id):
     param = (Lawyer_Id,)
     return selectWrapper(query, param)
 
-def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type=''):
+def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type='', FilingNo=''):
     query = 'UPDATE Lawyer_Request SET Status = %s WHERE LawyerID = %s AND ClientID = %s' 
     param = (Status, Lawyer_Id, Client_Id)
     res = insertUpdateDeleteWrapper(query, param)
@@ -17,6 +17,8 @@ def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type=''):
         if(Type == 0):
             query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, Type) VALUES (CURDATE(), %s, %s, %s)'
             param = (Client_Id, Lawyer_Id, Type)
+            return insertUpdateDeleteWrapper(query, param)
+
         # CRIME
         else:
             if(not Accussed_Id):
@@ -25,10 +27,13 @@ def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type=''):
                 res = insertUpdateDeleteWrapper(query, param)
                 return {'res':'failed'}
             
-            query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, AccusedID, Type) VALUES (CURDATE(), %s, %s, %s, %s)'
-            param = (Client_Id, Lawyer_Id, Accussed_Id, Type)
-        
-        return insertUpdateDeleteWrapper(query, param)
+            if(not FilingNo):
+                query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, AccusedID, Type) VALUES (CURDATE(), %s, %s, %s, %s)'
+                param = (Client_Id, Lawyer_Id, Accussed_Id, Type)
+                return insertUpdateDeleteWrapper(query, param)
+
+            else:
+                return attachAccusedLawyer(FilingNo, Lawyer_Id)
 
 def attachAccusedLawyer(FilingNo, Lawyer_Id):
     query = 'UPDATE Pending_Cases SET Accused_LawyerID = %s WHERE FilingNo = %s'
