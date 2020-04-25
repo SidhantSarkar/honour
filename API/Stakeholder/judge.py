@@ -1,6 +1,4 @@
-# from init import selectWrapper, insertUpdateDeleteWrapper
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
-import json
 
 def prevCasesCNRno(CNR):
 	'''JUDGE: See Previous Judgments based on CNR No.'''
@@ -46,8 +44,7 @@ def viewActiveCases(J_ID):
 
 def announceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	'''JUDGE: Announce final verdict for a case'''
-	result_j = ViewCase(CNR) #values extracted from Active_Cases
-	result = json.loads(result_j) #dictionary of the values
+	result = ViewCase(CNR) #values extracted from Active_Cases
 
 	query = "SET FOREIGN_KEY_CHECKS = 0"
 	param = ()
@@ -56,7 +53,6 @@ def announceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	query = "DELETE from Active_Cases WHERE CNRno=%s"
 	param = (CNR,)
 	res1 = insertUpdateDeleteWrapper(query, param)
-	res1 = json.loads(res1)
 
 	query = "SET FOREIGN_KEY_CHECKS = 1"
 	param = ()
@@ -76,7 +72,7 @@ def setHearing(CNR, PrevDate, NextDate, Purpose):
 	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s WHERE CNRno = %s"
 	param = (NextDate, PrevDate, CNR,)
 	res = insertUpdateDeleteWrapper(query, param)
-	res = json.loads(res)
+	
 	if(res['res'] == 'failed'):
 		return res
 
@@ -96,7 +92,7 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 	query = "SELECT Victim_LawyerID, Accused_LawyerID from Pending_Cases where FilingNo=%s"
 	param = (Filno,)
 	lawyers = selectWrapper(query, param)
-	lawyers = json.loads(lawyers)
+
 	lawyers = lawyers['arr'][0] #extract corresponding lawyers
 
 	#delete from pending cases
@@ -107,8 +103,7 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 	query = "DELETE from Pending_Cases where FilingNo=%s"
 	param = (Filno,)
 	result =  insertUpdateDeleteWrapper(query, param)
-	result = json.loads(result)
-
+	
 	query = "SET FOREIGN_KEY_CHECKS = 1"
 	param = ()
 	res = insertUpdateDeleteWrapper(query, param)
@@ -120,7 +115,6 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 	query = "INSERT into Active_Cases(FilingNo, FilingDate, FirstHearing, Stage, CourtNo, JudgeID, VictimID, VictimStmnt, AccusedID, AccusedStmnt, Acts) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 	param = (Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, AccID, AccSt, Acts,)
 	result = insertUpdateDeleteWrapper(query, param)
-	result = json.loads(result)
 
 	if(result['res'] == 'failed'):
 		return result
@@ -129,7 +123,6 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 	query = "SELECT CNRno from Active_Cases where FilingNo = %s"
 	param = (Filno,)
 	res = selectWrapper(query, param)
-	res = json.loads(res)
 	res = res['arr'][-1]
 
 	CNR = res['CNRno']

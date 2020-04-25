@@ -41,7 +41,7 @@ def firmRequest(Client_ID, Firm_ID, Client_Note, Quotation, Filing_No=''):
 
 def addDocument(ClientID, Filing_No, Document):
     '''CLIENT: insert Document'''
-    query = 'INSERT INTO Documents (ClientID, FilingNo, Document) VALUES (%s, %s, %s)'
+    query = 'INSERT INTO Documents (ClientID, FilingNo, Doc) VALUES (%s, %s, %s)'
     param = (ClientID,Filing_No,Document)
     res = insertUpdateDeleteWrapper(query, param)
     if(res['res'] == 'failed'):

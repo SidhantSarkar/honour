@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse
+from API.Routes import dataSource, validateResponse, convertToJson
 
 import API.Stakeholder.officer as officer
 from API import api
@@ -14,7 +14,7 @@ def officer_fileFIR():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return officer.fileFIR(**res)
+    return convertToJson(officer.fileFIR(**res))
 
 @api.route('/officer/checkDocStatus', methods=['POST'])
 def officer_checkDocStatus():
@@ -25,7 +25,7 @@ def officer_checkDocStatus():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return officer.checkDocStatus(**res)
+    return convertToJson(officer.checkDocStatus(**res))
 
 @api.route('/officer/verifyDoc', methods=['POST'])
 def officer_verifyDoc():
@@ -36,7 +36,7 @@ def officer_verifyDoc():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return officer.verifyDoc(**res)
+    return convertToJson(officer.verifyDoc(**res))
 
 @api.route('/officer/addHearing', methods=['POST'])
 def officer_addHearing():
@@ -47,7 +47,7 @@ def officer_addHearing():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return officer.addHearing(**res)
+    return convertToJson(officer.addHearing(**res))
 
 @api.route('/officer/schedule', methods=['POST'])
 def officer_schedule():
@@ -58,4 +58,4 @@ def officer_schedule():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return officer.schedule(**res)
+    return convertToJson(officer.schedule(**res))

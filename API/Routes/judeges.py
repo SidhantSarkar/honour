@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse
+from API.Routes import dataSource, validateResponse, convertToJson
 
 import API.Stakeholder.judge as judge
 from API import api
@@ -14,7 +14,7 @@ def judge_prevCasesCNRno():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.prevCasesCNRno(**res)
+    return convertToJson(judge.prevCasesCNRno(**res))
 
 @api.route('/judge/prevCasesAct', methods=['POST'])
 def judge_prevCasesAct():
@@ -25,7 +25,7 @@ def judge_prevCasesAct():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.prevCasesAct(**res)
+    return convertToJson(judge.prevCasesAct(**res))
 
 @api.route('/judge/schedule', methods=['POST'])
 def judge_schedule():
@@ -36,7 +36,7 @@ def judge_schedule():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.schedule(**res)
+    return convertToJson(judge.schedule(**res))
 
 @api.route('/judge/lawyerTrackRecord', methods=['POST'])
 def judge_lawyerTrackRecord():
@@ -47,7 +47,7 @@ def judge_lawyerTrackRecord():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.LawyerlrackRecord(**res)
+    return convertToJson(judge.LawyerlrackRecord(**res))
 
 @api.route('/judge/clientTrackRecord', methods=['POST'])
 def judge_clientTrackRecord():
@@ -58,7 +58,7 @@ def judge_clientTrackRecord():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.clientTrackRecord(**res)
+    return convertToJson(judge.clientTrackRecord(**res))
 
 @api.route('/judge/viewCase', methods=['POST'])
 def judge_viewCase():
@@ -69,7 +69,7 @@ def judge_viewCase():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.viewCase(**res)
+    return convertToJson(judge.viewCase(**res))
 
 @api.route('/judge/viewActiveCases', methods=['POST'])
 def judge_viewActiveCases():
@@ -80,7 +80,7 @@ def judge_viewActiveCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.viewActiveCases(**res)
+    return convertToJson(judge.viewActiveCases(**res))
 
 @api.route('/judge/announceVerdict', methods=['POST'])
 def judge_announceVerdict():
@@ -91,7 +91,7 @@ def judge_announceVerdict():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.announceVerdict(**res)
+    return convertToJson(judge.announceVerdict(**res))
 
 @api.route('/judge/setHearing', methods=['POST'])
 def judge_setHearing():
@@ -102,7 +102,7 @@ def judge_setHearing():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.setHearing(**res)
+    return convertToJson(judge.setHearing(**res))
 
 @api.route('/judge/viewPendingCases', methods=['POST'])
 def judge_viewPendingCases():
@@ -113,7 +113,7 @@ def judge_viewPendingCases():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.viewPendingCases(**res)
+    return convertToJson(judge.viewPendingCases(**res))
 
 @api.route('/judge/acceptCase', methods=['POST'])
 def judge_acceptCase():
@@ -124,4 +124,4 @@ def judge_acceptCase():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return judge.acceptCase(**res)
+    return convertToJson(judge.acceptCase(**res))

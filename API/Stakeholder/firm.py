@@ -1,6 +1,4 @@
-# from init import selectWrapper, insertUpdateDeleteWrapper
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
-import json
 
 
 def searchClients(F_ID):
@@ -35,7 +33,6 @@ def appointLawyer(F_ID, C_ID, Status, L_ID=""):
 		query = "SELECT * from Firm_Request where FirmID = %s and ClientID = %s"
 		param = (F_ID, C_ID,)
 		res = selectWrapper(query, param)
-		res = json.loads(res)
 		if(res['res'] == 'failed'):
 			return res
 		else:
@@ -50,7 +47,6 @@ def lawyerPerformance(L_ID):
 	query = "SELECT COUNT(*) as 'wins' from Closed_Cases where WonID_Lawyer = %s"
 	param = (L_ID,)
 	wins = selectWrapper(query, param)
-	wins = json.loads(wins)
 	if(wins['res'] == 'failed'):
 		return wins
 	else:
@@ -59,12 +55,11 @@ def lawyerPerformance(L_ID):
 	query = "SELECT COUNT(*) as 'loses' from Closed_Cases where (Accused_LawyerID = %s OR Victim_LawyerID = %s) AND NOT WonID_Lawyer = %s"
 	param = (L_ID, L_ID, L_ID,)
 	loses = selectWrapper(query, param)
-	loses = json.loads(loses)
 	if(loses['res'] == 'failed'):
 		return loses
 	else:
 		n_loses = loses['arr'][0]
-	return json.dumps({'res': 'ok', 'arr':[{'LawyerID':L_ID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]})
+	return {'res': 'ok', 'arr':[{'LawyerID':L_ID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]}
 
 
 def earningByClients(F_ID, date):
@@ -86,7 +81,7 @@ def winsLoses(F_ID):
 	query = "SELECT COUNT(*) as 'Wins' from Closed_Cases where WonID_Lawyer in (SELECT ID from Lawyers where FirmID = %s)"
 	param = (F_ID,)
 	wins = selectWrapper(query, param)
-	wins = json.loads(wins)
+
 	if(wins['res'] == 'failed'):
 		return wins
 	else:
@@ -95,10 +90,10 @@ def winsLoses(F_ID):
 	query = "SELECT COUNT(*) as 'Loses' from Closed_Cases where WonID_Lawyer NOT IN (SELECT ID from Lawyers where FirmID = %s) AND (Victim_LawyerID IN (SELECT ID from Lawyers where FirmID = %s) OR Accused_LawyerID IN (SELECT ID from Lawyers where FirmID = %s))"
 	param = (F_ID, F_ID, F_ID,)
 	loses = selectWrapper(query, param)
-	loses = json.loads(loses)
+
 	if(loses['res'] == 'failed'):
 		return loses
 	else:
 		n_loses = loses['arr'][0]
 
-	return json.dumps({'res': 'ok', 'arr':[{'FirmID':F_ID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]})
+	return {'res': 'ok', 'arr':[{'FirmID':F_ID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]}

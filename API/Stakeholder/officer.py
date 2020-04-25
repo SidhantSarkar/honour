@@ -1,6 +1,5 @@
 # from init import selectWrapper, insertUpdateDeleteWrapper
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
-import json
 
 
 def fileFIR(FIRno, Filno, InsName, Desc):
@@ -26,7 +25,7 @@ def addHearing(CNR, Prevdate, NextDate, Purpose):
 	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s WHERE CNRno = %s"
 	param = (NextDate, Prevdate, CNR)
 	res = insertUpdateDeleteWrapper(query, param)
-	res = json.loads(res)
+	
 	if(res['res'] == 'failed'):
 		return res
 

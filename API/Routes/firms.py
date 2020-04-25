@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse
+from API.Routes import dataSource, validateResponse, convertToJson
 
 import API.Stakeholder.firm as firm
 from API import api
@@ -14,7 +14,7 @@ def firm_searchClients():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.searchClients(**res)
+    return convertToJson(firm.searchClients(**res))
 
 @api.route('/firm/getRequests', methods=['POST'])
 def firm_getRequests():
@@ -25,7 +25,7 @@ def firm_getRequests():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.getRequests(**res)
+    return convertToJson(firm.getRequests(**res))
 
 @api.route('/firm/getLawyers', methods=['POST'])
 def firm_getLawyers():
@@ -36,7 +36,7 @@ def firm_getLawyers():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.getLawyers(**res)
+    return convertToJson(firm.getLawyers(**res))
 
 @api.route('/firm/appointLawyer', methods=['POST'])
 def firm_appointLawyer():
@@ -47,7 +47,7 @@ def firm_appointLawyer():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.appointLawyer(**res)
+    return convertToJson(firm.appointLawyer(**res))
 
 @api.route('/firm/lawyerPerformance', methods=['POST'])
 def firm_lawyerPerformance():
@@ -58,7 +58,7 @@ def firm_lawyerPerformance():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.lawyerPerformance(**res)
+    return convertToJson(firm.lawyerPerformance(**res))
 
 @api.route('/firm/earningByClients', methods=['POST'])
 def firm_earningByClients():
@@ -69,7 +69,7 @@ def firm_earningByClients():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.earningByClients(**res)
+    return convertToJson(firm.earningByClients(**res))
 
 @api.route('/firm/earningByLawyers', methods=['POST'])
 def firm_earningByLawyers():
@@ -80,7 +80,7 @@ def firm_earningByLawyers():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.earningByLawyers(**res)
+    return convertToJson(firm.earningByLawyers(**res))
 
 @api.route('/firm/winsLoses', methods=['POST'])
 def firm_winsLoses():
@@ -91,4 +91,4 @@ def firm_winsLoses():
     if (not validateResponse(params, res)):
         return jsonify({'res': 'missing params'})
     
-    return firm.winsLoses(**res)
+    return convertToJson(firm.winsLoses(**res))
