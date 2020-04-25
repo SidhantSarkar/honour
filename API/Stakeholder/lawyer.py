@@ -20,6 +20,9 @@ def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type=''):
         # CRIME
         else:
             if(not Accussed_Id):
+                query = 'UPDATE Lawyer_Request SET Status = 0 WHERE LawyerID = %s AND ClientID = %s' 
+                param = (Lawyer_Id, Client_Id)
+                res = insertUpdateDeleteWrapper(query, param)
                 return {'res':'failed'}
             
             query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, AccusedID, Type) VALUES (CURDATE(), %s, %s, %s, %s)'
