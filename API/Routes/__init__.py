@@ -12,7 +12,7 @@ def dataSource(request):
         res = {}
         for key in temp:
             res[key] = temp[key]
-    
+    print(res)
     return res
 
 def validateResponse(arr, res):

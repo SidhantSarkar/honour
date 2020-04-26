@@ -21,7 +21,7 @@ def updateStatus(LawyerID, ClientID, Status, AccusedID='', Type='', FilingNo='')
 
         # CRIME
         else:
-            if(not AccusedID):
+            if(not AccusedID and not FilingNo):
                 query = 'UPDATE Lawyer_Request SET Status = 0 WHERE LawyerID = %s AND ClientID = %s' 
                 param = (LawyerID, ClientID)
                 res = insertUpdateDeleteWrapper(query, param)
