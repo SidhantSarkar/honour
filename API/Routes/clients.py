@@ -114,3 +114,25 @@ def client_makePayment():
         return jsonify({'res': 'missing params'})
     
     return convertToJson(client.makePayment(**res))
+
+@api.route('/client/getActiveLawyerDetails', methods=['POST'])
+def client_getActiveLawyerDetails():
+    res = dataSource(request)
+    params = inspect.getargspec(client.getActiveLawyerDetails).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'missing params'})
+    
+    return convertToJson(client.getActiveLawyerDetails(**res))
+
+@api.route('/client/getActiveFirmDetails', methods=['POST'])
+def client_getActiveFirmDetails():
+    res = dataSource(request)
+    params = inspect.getargspec(client.getActiveFirmDetails).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'missing params'})
+    
+    return convertToJson(client.getActiveFirmDetails(**res))

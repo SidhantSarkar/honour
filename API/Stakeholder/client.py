@@ -116,5 +116,17 @@ def makePayment(ClientID, LawyerID, CNRno):
     param = (datetime.datetime.now().strftime('%Y-%m-%d'), ClientID, LawyerID, CNRno)
     return insertUpdateDeleteWrapper(query, param)
 
+def getActiveLawyerDetails(ClientID):
+    '''CLIENT: Get Accepted Lawyer Details'''
+    query = 'SELECT * FROM Lawyers WHERE ID in (SELECT DISTINCT(LawyerID) FROM Lawyer_Request WHERE ClientID = %s AND Status = 1)'
+    param = (ClientID,)
+    return selectWrapper(query, param)
+
+def getActiveFirmDetails(ClientID):
+    '''CLIENT: Get Accepted Lawyer Details'''
+    query = 'SELECT * FROM Firms WHERE ID in (SELECT DISTINCT(FirmID) FROM Firm_Request WHERE ClientID = %s AND Status = 1)'
+    param = (ClientID,)
+    return selectWrapper(query, param)
+    
 # print(showLawyers('crime'))
 # print(lawyerRequest(1,1,'Test Chall raha hai',10000)) 
