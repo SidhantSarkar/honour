@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse, convertToJson
+from API.Routes import dataSource, validateResponse, convertToJson, returnMissingParams, addtionalParams
 
 import API.Stakeholder.lawyer as lawyer
 from API import api
@@ -12,7 +12,10 @@ def lawyer_getRequests():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.getRequests(**res))
 
@@ -23,7 +26,10 @@ def lawyer_updateStatus():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.updateStatus(**res))
 
@@ -34,7 +40,10 @@ def lawyer_attachAccusedLawyer():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.attachAccusedLawyer(**res))
 
@@ -45,7 +54,10 @@ def lawyer_getPendingCases():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.getPendingCases(**res))
 
@@ -56,7 +68,10 @@ def lawyer_getActiveCases():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.getActiveCases(**res))
 
@@ -67,7 +82,10 @@ def lawyer_todaySchedule():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.todaySchedule(**res))
 
@@ -78,7 +96,10 @@ def lawyer_getClosedCases():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.getClosedCases(**res))
 
@@ -89,7 +110,10 @@ def lawyer_getPrevHearings():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.getPrevHearings(**res))
 
@@ -100,7 +124,10 @@ def lawyer_getNotPaidClients():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.getNotPaidClients(**res))
 
@@ -111,6 +138,9 @@ def lawyer_createPaymentRequest():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.createPaymentRequest(**res))

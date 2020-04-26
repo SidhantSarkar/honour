@@ -22,6 +22,19 @@ def validateResponse(arr, res):
     
     return True
 
+def returnMissingParams(arr, res):
+    required = set(arr)
+    supplied = set(res.keys())
+    missing = required - supplied
+    return list(missing)
+
+def addtionalParams(arr, res):
+    required = set(arr)
+    supplied = set(res.keys())
+    if(len(required) == len(supplied)):
+        return True
+    return False
+
 def myconverter(o):
     if isinstance(o, datetime.date):
         return o.__str__()

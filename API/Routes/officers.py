@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse, convertToJson
+from API.Routes import dataSource, validateResponse, convertToJson, returnMissingParams, addtionalParams
 
 import API.Stakeholder.officer as officer
 from API import api
@@ -12,7 +12,10 @@ def officer_fileFIR():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(officer.fileFIR(**res))
 
@@ -23,7 +26,10 @@ def officer_checkDocStatus():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(officer.checkDocStatus(**res))
 
@@ -34,7 +40,10 @@ def officer_verifyDoc():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(officer.verifyDoc(**res))
 
@@ -45,7 +54,10 @@ def officer_addHearing():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(officer.addHearing(**res))
 
@@ -56,6 +68,9 @@ def officer_schedule():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(officer.schedule(**res))

@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse, convertToJson
+from API.Routes import dataSource, validateResponse, convertToJson, returnMissingParams, addtionalParams
 
 import API.Stakeholder.client as client
 from API import api
@@ -12,8 +12,11 @@ def client_showLawyers():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.showLawyers(**res))
 
 @api.route('/client/showFirms', methods=['POST'])
@@ -23,8 +26,11 @@ def client_showFirms():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.showFirms(**res))
 
 @api.route('/client/lawyerRequest', methods=['POST'])
@@ -34,8 +40,11 @@ def client_lawyerRequest():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.lawyerRequest(**res))
 
 @api.route('/client/firmRequest', methods=['POST'])
@@ -45,8 +54,11 @@ def client_firmRequest():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.firmRequest(**res))
 
 @api.route('/client/addDocument', methods=['POST'])
@@ -56,8 +68,11 @@ def client_addDocument():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.addDocument(**res))
 
 @api.route('/client/getActiveCases', methods=['POST'])
@@ -67,8 +82,11 @@ def client_getActiveCases():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.getActiveCases(**res))
 
 @api.route('/client/getPendindCases', methods=['POST'])
@@ -78,8 +96,11 @@ def client_getPendindCases():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.getPendindCases(**res))
 
 @api.route('/client/withdrawCase', methods=['POST'])
@@ -89,8 +110,11 @@ def client_withdrawCase():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.withdrawCase(**res))
 
 @api.route('/client/viewPaymentRequests', methods=['POST'])
@@ -100,8 +124,11 @@ def client_viewPaymentRequests():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.viewPaymentRequests(**res))
 
 @api.route('/client/makePayment', methods=['POST'])
@@ -111,8 +138,11 @@ def client_makePayment():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.makePayment(**res))
 
 @api.route('/client/getActiveLawyerDetails', methods=['POST'])
@@ -122,8 +152,11 @@ def client_getActiveLawyerDetails():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.getActiveLawyerDetails(**res))
 
 @api.route('/client/getActiveFirmDetails', methods=['POST'])
@@ -133,6 +166,9 @@ def client_getActiveFirmDetails():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
     
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
     return convertToJson(client.getActiveFirmDetails(**res))

@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse, convertToJson
+from API.Routes import dataSource, validateResponse, convertToJson, returnMissingParams, addtionalParams
 
 import API.Stakeholder.firm as firm
 from API import api
@@ -12,7 +12,10 @@ def firm_searchClients():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.searchClients(**res))
 
@@ -23,7 +26,10 @@ def firm_getRequests():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.getRequests(**res))
 
@@ -34,7 +40,10 @@ def firm_getLawyers():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.getLawyers(**res))
 
@@ -45,7 +54,10 @@ def firm_appointLawyer():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.appointLawyer(**res))
 
@@ -56,7 +68,10 @@ def firm_lawyerPerformance():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.lawyerPerformance(**res))
 
@@ -67,7 +82,10 @@ def firm_earningByClients():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.earningByClients(**res))
 
@@ -78,7 +96,10 @@ def firm_earningByLawyers():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.earningByLawyers(**res))
 
@@ -89,6 +110,9 @@ def firm_winsLoses():
     
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.winsLoses(**res))

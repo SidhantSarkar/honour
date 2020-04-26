@@ -1,6 +1,6 @@
 import inspect
 from flask import request, jsonify
-from API.Routes import dataSource, validateResponse, convertToJson
+from API.Routes import dataSource, validateResponse, convertToJson, returnMissingParams, addtionalParams
 
 import API.Stakeholder.judge as judge
 from API import api
@@ -12,7 +12,10 @@ def judge_prevCasesCNRno():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.prevCasesCNRno(**res))
 
@@ -23,7 +26,10 @@ def judge_prevCasesAct():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.prevCasesAct(**res))
 
@@ -34,7 +40,10 @@ def judge_schedule():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.schedule(**res))
 
@@ -45,7 +54,10 @@ def judge_lawyerTrackRecord():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-         return jsonify({'res': 'missing params'})
+         return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.LawyerlrackRecord(**res))
 
@@ -56,7 +68,10 @@ def judge_clientTrackRecord():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.clientTrackRecord(**res))
 
@@ -67,7 +82,10 @@ def judge_viewCase():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.viewCase(**res))
 
@@ -78,7 +96,10 @@ def judge_viewActiveCases():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.viewActiveCases(**res))
 
@@ -89,7 +110,10 @@ def judge_announceVerdict():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.announceVerdict(**res))
 
@@ -100,7 +124,10 @@ def judge_setHearing():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.setHearing(**res))
 
@@ -111,7 +138,10 @@ def judge_viewPenAccusedStmnts():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.viewPendingCases(**res))
 
@@ -122,6 +152,9 @@ def judge_acceptCase():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.acceptCase(**res))
