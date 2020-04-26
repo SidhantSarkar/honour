@@ -3,6 +3,7 @@ import datetime
 import json
 
 def dataSource(request):
+    res = {}
     if (request.json):
         res = request.json
     if (request.form):
