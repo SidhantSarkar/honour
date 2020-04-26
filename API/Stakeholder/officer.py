@@ -2,35 +2,35 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 
 
-def fileFIR(FIRno, Filno, InsName, Desc):
+def fileFIR(FIRno, FilingNo, InspectorName, Description):
 	'''OFFICER: File FIR'''
 	query = "INSERT into FIR(FIRno, FilingNo, InspectorName, Description) values(%s,%s,%s,%s)"
-	param = (FIRno, Filno, InsName, Desc)
+	param = (FIRno, FilingNo, InspectorName, Description)
 	return insertUpdateDeleteWrapper(query, param)
 
-def checkDocStatus(typ):
+def checkDocStatus(Type):
 	'''OFFICER: Check Document upload status'''
 	query = "SELECT * from Pending_Cases where is_Verified = 0 and Type = %s"
-	param = (typ,)
+	param = (Type,)
 	return selectWrapper(query, param)
 
-def verifyDoc(Filno):
+def verifyDoc(FilingNo):
 	'''OFFICER: Verify Document'''
 	query = "UPDATE Pending_Cases SET is_Verified = 1 where FilingNo = %s"
-	param = (Filno,)
+	param = (FilingNo,)
 	return insertUpdateDeleteWrapper(query, param)
 
-def addHearing(CNR, Prevdate, NextDate, Purpose):
+def addHearing(CNR, PrevHearing, NextHearing, Purpose):
 	'''OFFICER: Add hearings'''
 	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s WHERE CNRno = %s"
-	param = (NextDate, Prevdate, CNR)
+	param = (NextHearing, PrevHearing, CNR)
 	res = insertUpdateDeleteWrapper(query, param)
 	
 	if(res['res'] == 'failed'):
 		return res
 
 	query = "INSERT into Hearings(Date, CNRno, Prev_date, Purpose) VALUES(%s,%s,%s,%s)"
-	param = (NextDate, CNR, Prevdate, Purpose)
+	param = (NextHearing, CNR, NextHearing, Purpose)
 	return insertUpdateDeleteWrapper(query, param)
 
 def schedule():

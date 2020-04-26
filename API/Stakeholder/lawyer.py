@@ -1,13 +1,13 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 
-def getRequests(Lawyer_Id):
+def getRequests(LawyerID):
     query = 'SELECT * FROM Lawyer_Request WHERE LawyerID = %s AND Status = 0'
-    param = (Lawyer_Id,)
+    param = (LawyerID,)
     return selectWrapper(query, param)
 
-def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type='', FilingNo=''):
+def updateStatus(LawyerID, ClientID, Status, AccusedID='', Type='', FilingNo=''):
     query = 'UPDATE Lawyer_Request SET Status = %s WHERE LawyerID = %s AND ClientID = %s' 
-    param = (Status, Lawyer_Id, Client_Id)
+    param = (Status, LawyerID, ClientID)
     res = insertUpdateDeleteWrapper(query, param)
 
     if(Status == 2):
@@ -16,28 +16,28 @@ def updateStatus(Lawyer_Id, Client_Id, Status, Accussed_Id='', Type='', FilingNo
         # CIVIL
         if(Type == 0):
             query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, Type) VALUES (CURDATE(), %s, %s, %s)'
-            param = (Client_Id, Lawyer_Id, Type)
+            param = (ClientID, LawyerID, Type)
             return insertUpdateDeleteWrapper(query, param)
 
         # CRIME
         else:
-            if(not Accussed_Id):
+            if(not AccusedID):
                 query = 'UPDATE Lawyer_Request SET Status = 0 WHERE LawyerID = %s AND ClientID = %s' 
-                param = (Lawyer_Id, Client_Id)
+                param = (LawyerID, ClientID)
                 res = insertUpdateDeleteWrapper(query, param)
                 return {'res':'failed'}
             
             if(not FilingNo):
                 query = 'INSERT INTO Pending_Cases (FilingDate, VictimID, Victim_LawyerID, AccusedID, Type) VALUES (CURDATE(), %s, %s, %s, %s)'
-                param = (Client_Id, Lawyer_Id, Accussed_Id, Type)
+                param = (ClientID, LawyerID, AccusedID, Type)
                 return insertUpdateDeleteWrapper(query, param)
 
             else:
-                return attachAccusedLawyer(FilingNo, Lawyer_Id)
+                return attachAccusedLawyer(FilingNo, LawyerID)
 
-def attachAccusedLawyer(FilingNo, Lawyer_Id):
+def attachAccusedLawyer(FilingNo, Accused_LawyerID):
     query = 'UPDATE Pending_Cases SET Accused_LawyerID = %s WHERE FilingNo = %s'
-    param = (Lawyer_Id, FilingNo)
+    param = (Accused_LawyerID, FilingNo)
     return insertUpdateDeleteWrapper(query, param)
 
 def getPendingCases(LawyerID):
@@ -70,9 +70,9 @@ def getNotPaidClients(LawyerID):
     param = (LawyerID,)
     return selectWrapper(query, param)
 
-def createPaymentRequest(Lawyer_Id, Client_Id, Fees, CNRno):
+def createPaymentRequest(LawyerID, ClientID, Fee, CNRno):
     query = 'UPDATE Lawyer_Client SET isRequested = 1, Fee = %s WHERE ClientID = %s AND LawyerID = %s AND CNRno = %s'
-    param = (Fees, Client_Id, Lawyer_Id, CNRno)
+    param = (Fee, ClientID, LawyerID, CNRno)
     return updateStatus(query, param)
 
 

@@ -6,7 +6,7 @@ api = Blueprint('api', __name__)
 # Adding Routes for stakeholders
 from API.Routes.clients import *
 from API.Routes.lawyers import *
-from API.Routes.judeges import *
+from API.Routes.judges import *
 from API.Routes.firms import *
 from API.Routes.officers import *
 

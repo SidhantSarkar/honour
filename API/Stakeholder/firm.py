@@ -1,51 +1,51 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 
 
-def searchClients(F_ID):
+def searchClients(FirmID):
 	'''FIRM: Search about its clients'''
 	query = "SELECT * from Clients where ID in (SELECT ClientID from Firm_Request where FirmID = %s and Status = 1)"
-	param = (F_ID,)
+	param = (FirmID,)
 	return selectWrapper(query, param)
 
 
-def getRequests(F_ID):
+def getRequests(FirmID):
 	'''FIRM: Get requests for the firm'''
 	query = "SELECT * from Firm_Request where FirmID = %s and Status = 0"
-	param = (F_ID,)
+	param = (FirmID,)
 	return selectWrapper(query, param)
 
 
-def getLawyers(F_ID):
+def getLawyers(FirmID):
 	'''FIRM: Get lawyers under the firm'''
 	query = "SELECT * from Lawyers where FirmID = %s"
-	param = (F_ID,)
+	param = (FirmID,)
 	return selectWrapper(query, param)
 
 
-def appointLawyer(F_ID, C_ID, Status, L_ID=""):
+def appointLawyer(FirmID, ClientID, Status, LawyerID=""):
 	'''FIRM: Appoint a lawyer to a client'''
 	query = "UPDATE Firm_Request SET Status = %s where FirmID = %s and ClientID = %s"
-	param = (Status, F_ID, C_ID,)
+	param = (Status, FirmID, ClientID,)
 	result = insertUpdateDeleteWrapper(query, param)
 	if(Status == 2):
 		return result
 	else:
 		query = "SELECT * from Firm_Request where FirmID = %s and ClientID = %s"
-		param = (F_ID, C_ID,)
+		param = (FirmID, ClientID,)
 		res = selectWrapper(query, param)
 		if(res['res'] == 'failed'):
 			return res
 		else:
 			values = res['arr'][0]
 			query = "INSERT into Lawyer_Request(ClientID, LawyerID, FilingNo, Client_Note, Quotation, Status) VALUES(%s,%s,%s,%s,%s,0)"
-			param = (C_ID, L_ID, values['FilingNo'], values['Client_Note'], values['Quotation'],)
+			param = (ClientID, LawyerID, values['FilingNo'], values['Client_Note'], values['Quotation'],)
 			return insertUpdateDeleteWrapper(query, param)
 
 
-def lawyerPerformance(L_ID):
+def lawyerPerformance(LawyerID):
 	'''FIRM: Look at lawyer's performance'''
 	query = "SELECT COUNT(*) as 'wins' from Closed_Cases where WonID_Lawyer = %s"
-	param = (L_ID,)
+	param = (LawyerID,)
 	wins = selectWrapper(query, param)
 	if(wins['res'] == 'failed'):
 		return wins
@@ -53,33 +53,33 @@ def lawyerPerformance(L_ID):
 		n_wins = wins['arr'][0]
 
 	query = "SELECT COUNT(*) as 'loses' from Closed_Cases where (Accused_LawyerID = %s OR Victim_LawyerID = %s) AND NOT WonID_Lawyer = %s"
-	param = (L_ID, L_ID, L_ID,)
+	param = (LawyerID, LawyerID, LawyerID,)
 	loses = selectWrapper(query, param)
 	if(loses['res'] == 'failed'):
 		return loses
 	else:
 		n_loses = loses['arr'][0]
-	return {'res': 'ok', 'arr':[{'LawyerID':L_ID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]}
+	return {'res': 'ok', 'arr':[{'LawyerID':LawyerID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]}
 
 
-def earningByClients(F_ID, date):
+def earningByClients(FirmID, datePaid):
 	'''FIRM: Look at overall earning based on clients'''
 	query = "SELECT ClientID, SUM(Fee) from Lawyer_Client where datePaid>=%s and datePaid<=CURDATE() and ClientID in (SELECT ClientID from Firm_Request where FirmID=%s and Status = 1) GROUP BY ClientID  ORDER BY SUM(Fee) DESC"
-	param = (date, F_ID,)
+	param = (datePaid, FirmID,)
 	return selectWrapper(query, param)
 
 
-def earningByLawyers(F_ID, date):
+def earningByLawyers(FirmID, datePaid):
 	'''FIRM: Look at overall earning based on Lawyers'''
 	query = "SELECT LawyerID, SUM(Fee) from Lawyer_Client where datePaid>=%s and datePaid<=CURDATE() and LawyerID in (SELECT ID from Lawyers where FirmID=%s) GROUP BY LawyerID  ORDER BY SUM(Fee) DESC"
-	param = (date, F_ID,)
+	param = (datePaid, FirmID,)
 	return selectWrapper(query, param)
 
 
-def winsLoses(F_ID):
+def winsLoses(FirmID):
 	'''FIRM: Look at total wins and loses'''
 	query = "SELECT COUNT(*) as 'Wins' from Closed_Cases where WonID_Lawyer in (SELECT ID from Lawyers where FirmID = %s)"
-	param = (F_ID,)
+	param = (FirmID,)
 	wins = selectWrapper(query, param)
 
 	if(wins['res'] == 'failed'):
@@ -88,7 +88,7 @@ def winsLoses(F_ID):
 		n_wins = wins['arr'][0]
 
 	query = "SELECT COUNT(*) as 'Loses' from Closed_Cases where WonID_Lawyer NOT IN (SELECT ID from Lawyers where FirmID = %s) AND (Victim_LawyerID IN (SELECT ID from Lawyers where FirmID = %s) OR Accused_LawyerID IN (SELECT ID from Lawyers where FirmID = %s))"
-	param = (F_ID, F_ID, F_ID,)
+	param = (FirmID, FirmID, FirmID,)
 	loses = selectWrapper(query, param)
 
 	if(loses['res'] == 'failed'):
@@ -96,4 +96,4 @@ def winsLoses(F_ID):
 	else:
 		n_loses = loses['arr'][0]
 
-	return {'res': 'ok', 'arr':[{'FirmID':F_ID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]}
+	return {'res': 'ok', 'arr':[{'FirmID':FirmID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]}

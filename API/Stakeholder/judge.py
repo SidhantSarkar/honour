@@ -1,21 +1,21 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 
-def prevCasesCNRno(CNR):
+def prevCasesCNRno(CNRno):
 	'''JUDGE: See Previous Judgments based on CNR No.'''
 	query = 'SELECT * from Closed_Cases WHERE CNRno=%s'
-	param = (CNR,)
+	param = (CNRno,)
 	return selectWrapper(query, param)
 
-def prevCasesAct(Act):
+def prevCasesAct(Acts):
 	'''JUDGE: See previous judgements based on Act'''
 	query = "SELECT * from Closed_Cases WHERE Acts like %s"
-	param = ("%"+Act+"%",)
+	param = ("%"+Acts+"%",)
 	return selectWrapper(query, param)
 
-def schedule(J_ID):
+def schedule(JudgeID):
 	'''JUDGE: See Schedule for the day'''
 	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN 'CURDATE() 00:00:00' AND 'CURDATE() 23:59:59' AND JudgeID = %s"
-	param = (J_ID,)
+	param = (JudgeID,)
 	return selectWrapper(query, param)
 
 def lawyerTrackRecord(L_ID):
@@ -44,7 +44,7 @@ def viewActiveCases(J_ID):
 
 def announceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	'''JUDGE: Announce final verdict for a case'''
-	result = ViewCase(CNR) #values extracted from Active_Cases
+	result = viewCase(CNR) #values extracted from Active_Cases
 
 	query = "SET FOREIGN_KEY_CHECKS = 0"
 	param = ()

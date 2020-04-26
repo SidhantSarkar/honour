@@ -45,7 +45,7 @@ def judge_lawyerTrackRecord():
 
     # check params should be in res
     if (not validateResponse(params, res)):
-        return jsonify({'res': 'missing params'})
+         return jsonify({'res': 'missing params'})
     
     return convertToJson(judge.LawyerlrackRecord(**res))
 
@@ -105,7 +105,7 @@ def judge_setHearing():
     return convertToJson(judge.setHearing(**res))
 
 @api.route('/judge/viewPendingCases', methods=['POST'])
-def judge_viewPendingCases():
+def judge_viewPenAccusedStmnts():
     res = dataSource(request)
     params = inspect.getargspec(judge.viewPendingCases).args
 
