@@ -18,16 +18,16 @@ def schedule(JudgeID):
 	param = (JudgeID,)
 	return selectWrapper(query, param)
 
-def lawyerTrackRecord(L_ID):
+def lawyerTrackRecord(LawyerID):
 	'''JUDGE: Track record of a Lawyer'''
 	query = "SELECT * from Closed_Cases where Victim_LawyerID = %s OR Accused_LawyerID = %s"
-	param = (L_ID, L_ID,)
+	param = (LawyerID, LawyerID	,)
 	return selectWrapper(query, param)
 
-def clientTrackRecord(C_ID):
+def clientTrackRecord(ClientID):
 	'''JUDGE: Track record of a Client'''
 	query = "SELECT * from Closed_Cases where VictimID = %s OR AccusedID = %s"
-	param = (C_ID, C_ID)
+	param = (ClientID, ClientID)
 	return selectWrapper(query, param)
 
 def viewCase(CNRno):
@@ -36,22 +36,22 @@ def viewCase(CNRno):
 	param = (CNRno,)
 	return selectWrapper(query, param)
 
-def viewActiveCases(J_ID):
+def viewActiveCases(JudgeID):
 	'''JUDGE: View ongoing Active Cases'''
 	query = "SELECT * from Active_Cases where JudgeID=%s"
-	param = (J_ID,)
+	param = (JudgeID,)
 	return selectWrapper(query, param)
 
-def announceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
+def announceVerdict(CNRno, Victim_LawyerID, Accused_LawyerID, CaseStmnt, FinalVerdict , WonID_Client, WonID_Lawyer):
 	'''JUDGE: Announce final verdict for a case'''
-	result = viewCase(CNR) #values extracted from Active_Cases
+	result = viewCase(CNRno) #values extracted from Active_Cases
 
 	query = "SET FOREIGN_KEY_CHECKS = 0"
 	param = ()
 	res = insertUpdateDeleteWrapper(query, param)
 
 	query = "DELETE from Active_Cases WHERE CNRno=%s"
-	param = (CNR,)
+	param = (CNRno,)
 	res1 = insertUpdateDeleteWrapper(query, param)
 
 	query = "SET FOREIGN_KEY_CHECKS = 1"
@@ -64,20 +64,20 @@ def announceVerdict(CNR, Vic_L_ID, Acc_L_ID, CaseStmt, Verdict , WinC, WinL):
 	if(result['res'] == 'ok'):
 		values = result['arr'][0]
 		query = "INSERT INTO Closed_Cases(CNRno, FilingNo, FilingDate, JudgeID, VictimID, Victim_LawyerID, AccusedID, Accused_LawyerID, CaseStmnt, Acts, FinalVerdict, Verdict_Date, WonID_Client, WonID_Lawyer) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,CURDATE(),%s,%s);"
-		param = (CNR, values['FilingNo'], values['FilingDate'], values['JudgeID'], values['VictimID'], Vic_L_ID, values['AccusedID'], Acc_L_ID, CaseStmt, values['Acts'], Verdict, WinC, WinL,)
+		param = (CNRno, values['FilingNo'], values['FilingDate'], values['JudgeID'], values['VictimID'], Victim_LawyerID, values['AccusedID'], Accused_LawyerID, CaseStmnt, values['Acts'], FinalVerdict, WonID_Client, WonID_Lawyer,)
 		return insertUpdateDeleteWrapper(query, param)
 
-def setHearing(CNR, PrevDate, NextDate, Purpose):
+def setHearing(CNRno, PrevHearing, NextHearing, Purpose):
 	'''JUDGE: Set the date for next Hearing'''
 	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s WHERE CNRno = %s"
-	param = (NextDate, PrevDate, CNR,)
+	param = (NextHearing, PrevHearing, CNRno,)
 	res = insertUpdateDeleteWrapper(query, param)
 	
 	if(res['res'] == 'failed'):
 		return res
 
 	query = "INSERT into Hearings(Date, CNRno, Prev_date, Purpose) VALUES(%s,%s,%s,%s)"
-	param = (NextDate, CNR, PrevDate, Purpose)
+	param = (NextHearing, CNRno, PrevHearing, Purpose)
 	return insertUpdateDeleteWrapper(query, param)
 
 def viewPendingCases():
@@ -86,11 +86,11 @@ def viewPendingCases():
 	param = ()
 	return selectWrapper(query,param)
 
-def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts, AccID=None, AccSt=""):
+def acceptCase(FilingNo, FilingDate, FirstHearing, Stage, CourtNo, JudgeID, VictimID, VictimStmnt, Acts, AccusedID=None, AccusedStmnt=""):
 	'''JUDGE: Accept a pending case'''
 
 	query = "SELECT Victim_LawyerID, Accused_LawyerID from Pending_Cases where FilingNo=%s"
-	param = (Filno,)
+	param = (FilingNo,)
 	lawyers = selectWrapper(query, param)
 
 	lawyers = lawyers['arr'][0] #extract corresponding lawyers
@@ -101,7 +101,7 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 	res = insertUpdateDeleteWrapper(query, param)
 
 	query = "DELETE from Pending_Cases where FilingNo=%s"
-	param = (Filno,)
+	param = (FilingNo,)
 	result =  insertUpdateDeleteWrapper(query, param)
 	
 	query = "SET FOREIGN_KEY_CHECKS = 1"
@@ -113,7 +113,7 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 
 	#add to active cases
 	query = "INSERT into Active_Cases(FilingNo, FilingDate, FirstHearing, Stage, CourtNo, JudgeID, VictimID, VictimStmnt, AccusedID, AccusedStmnt, Acts) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-	param = (Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, AccID, AccSt, Acts,)
+	param = (FilingNo, FilingDate, FirstHearing, Stage, CourtNo, JudgeID, VictimID, VictimStmnt, AccusedID, AccusedStmnt, Acts,)
 	result = insertUpdateDeleteWrapper(query, param)
 
 	if(result['res'] == 'failed'):
@@ -121,23 +121,23 @@ def acceptCase(Filno, Fildate, firstHear, Stage, CrtNo, J_ID, VicID, VicSt, Acts
 
 	#add to lawyer client
 	query = "SELECT CNRno from Active_Cases where FilingNo = %s"
-	param = (Filno,)
+	param = (FilingNo,)
 	res = selectWrapper(query, param)
 	res = res['arr'][-1]
 
 	CNR = res['CNRno']
 	query = "INSERT into Lawyer_Client(LawyerID, ClientID, CNRno, Side) VALUES(%s,%s,%s,0)"
-	param = (lawyers['Victim_LawyerID'], VicID, CNR)
+	param = (lawyers['Victim_LawyerID'], VictimID, CNR)
 	result = insertUpdateDeleteWrapper(query, param)
 
-	if(AccID!=None):
+	if(AccusedID!=None):
 		query = "INSERT into Lawyer_Client(LawyerID, ClientID, CNRno, Side) VALUES(%s,%s,%s,1)"
-		param = (lawyers['Accused_LawyerID'], AccID, CNR)
+		param = (lawyers['Accused_LawyerID'], AccusedID, CNR)
 		result = insertUpdateDeleteWrapper(query, param)
 
 	#add to hearings
 	query = "INSERT into Hearings(Date, CNRno, Prev_date, Purpose) VALUES(%s,%s,null,'First Hearing')"
-	param = (firstHear, CNR)
+	param = (FirstHearing, CNR)
 	result = insertUpdateDeleteWrapper(query, param)
 	
 	return result
