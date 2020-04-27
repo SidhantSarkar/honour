@@ -11,7 +11,7 @@ def selectWrapper(select, params):
         json_data=[]
         for result in res:
             json_data.append(dict(zip(headers,result)))
-        resp = {'res': 'ok', 'arr': json_data}
+        resp = {'res': 'success', 'arr': json_data}
         return resp
 
     except Exception as e:

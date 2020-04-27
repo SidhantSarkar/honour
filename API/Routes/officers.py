@@ -88,3 +88,17 @@ def officer_schedule():
         return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(officer.schedule(**res))
+
+@api.route('/officer/updateCaseStatements', methods=['POST'])
+def officer_updateCaseStatements():
+    res = dataSource(request)
+    params = inspect.getargspec(officer.updateCaseStatements).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(officer.updateCaseStatements(**res))

@@ -1,7 +1,6 @@
 # from init import selectWrapper, insertUpdateDeleteWrapper
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
 
-
 def fileFIR(FilingNo, InspectorName, Description):
 	'''OFFICER: File FIR'''
 	query = "INSERT into FIR(FilingNo, InspectorName, Description) values(%s,%s,%s)"
@@ -44,7 +43,7 @@ def viewRelatedDocuments(FilingNo, Type):
 		if(fir['res'] == 'failed'):
 			return fir
 
-		return {'res': 'ok', 'doc': docs['arr'], 'fir': fir['arr']}
+		return {'res': 'success', 'doc': docs['arr'], 'fir': fir['arr']}
 
 def verifyDoc(FilingNo, Type):
 	'''OFFICER: Verify Document'''
@@ -59,7 +58,7 @@ def verifyDoc(FilingNo, Type):
 
 def addHearing(CNR, PrevHearing, NextHearing, Purpose):
 	'''OFFICER: Add hearings'''
-	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s WHERE CNRno = %s"
+	query = "UPDATE Active_Cases SET NextHearing = %s, PrevHearing = %s, Stage = Stage + 1 WHERE CNRno = %s"
 	param = (NextHearing, PrevHearing, CNR)
 	res = insertUpdateDeleteWrapper(query, param)
 	
@@ -67,7 +66,7 @@ def addHearing(CNR, PrevHearing, NextHearing, Purpose):
 		return res
 
 	query = "INSERT into Hearings(Date, CNRno, Prev_date, Purpose) VALUES(%s,%s,%s,%s)"
-	param = (NextHearing, CNR, NextHearing, Purpose)
+	param = (NextHearing, CNR, PrevHearing, Purpose)
 	return insertUpdateDeleteWrapper(query, param)
 
 def schedule():
@@ -75,3 +74,37 @@ def schedule():
 	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN 'CURDATE() 00:00:00' AND 'CURDATE() 23:59:59'"
 	param = tuple()
 	return selectWrapper(query, param)
+
+def updateCaseStatements(CNRno, VictimStmnt='', AccusedStmnt='', Acts=''):
+	'''OFFICER: Update Victime Statements, Add acts'''
+	
+	result = {}
+
+	if(not VictimStmnt and not AccusedStmnt and not Acts):
+		return {'res': 'failed', 'type': 'empty params'}
+
+	if(VictimStmnt):
+		query = "UPDATE Active_Cases SET VictimStmnt = %s WHERE CNRno = %s"
+		param = (VictimStmnt, CNRno)
+		result = insertUpdateDeleteWrapper(query, param)
+
+		if(result['res'] == 'failed'):
+			return result
+
+	if(AccusedStmnt):
+		query = "UPDATE Active_Cases SET AccusedStmnt = %s WHERE CNRno = %s"
+		param = (AccusedStmnt, CNRno)
+		result = insertUpdateDeleteWrapper(query, param)
+
+		if(result['res'] == 'failed'):
+			return result
+
+	if(Acts):
+		query = "UPDATE Active_Cases SET Acts = %s WHERE CNRno = %s"
+		param = (Acts, CNRno)
+		result = insertUpdateDeleteWrapper(query, param)
+
+		if(result['res'] == 'failed'):
+			return result
+	
+	return result
