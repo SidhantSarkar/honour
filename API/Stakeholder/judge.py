@@ -110,8 +110,9 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 
 	#delete from pending cases
 	query = "SET FOREIGN_KEY_CHECKS = 0"
-	param = ()
+	param = tuple()
 	res = insertUpdateDeleteWrapper(query, param)
+	print(res)
 
 	query = "DELETE from Pending_Cases where FilingNo=%s"
 	param = (FilingNo,)
@@ -121,7 +122,7 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 		return result
 	
 	query = "SET FOREIGN_KEY_CHECKS = 1"
-	param = ()
+	param = tuple()
 	res = insertUpdateDeleteWrapper(query, param)
 
 	#add to active cases
