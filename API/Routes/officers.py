@@ -33,6 +33,20 @@ def officer_checkDocStatus():
     
     return convertToJson(officer.checkDocStatus(**res))
 
+@api.route('/officer/viewRelatedDocuments', methods=['POST'])
+def officer_viewRelatedDocuments():
+    res = dataSource(request)
+    params = inspect.getargspec(officer.viewRelatedDocuments).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(officer.viewRelatedDocuments(**res))
+
 @api.route('/officer/verifyDoc', methods=['POST'])
 def officer_verifyDoc():
     res = dataSource(request)
