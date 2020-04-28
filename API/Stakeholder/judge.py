@@ -112,7 +112,6 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 	query = "SET FOREIGN_KEY_CHECKS = 0"
 	param = tuple()
 	res = insertUpdateDeleteWrapper(query, param)
-	print(res)
 
 	query = "DELETE from Pending_Cases where FilingNo=%s"
 	param = (FilingNo,)
@@ -153,7 +152,7 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 
 	if(data['Type'] == 1):
 		query = "INSERT into Lawyer_Client(LawyerID, ClientID, CNRno, Side) VALUES(%s,%s,%s,1)"
-		param = (data['Accused_LawyerID'], data, CNR)
+		param = (data['Accused_LawyerID'], data['AccusedID'], CNR)
 		result = insertUpdateDeleteWrapper(query, param)
 
 	return result
