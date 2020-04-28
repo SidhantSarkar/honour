@@ -52,7 +52,7 @@ CREATE TABLE `Active_Cases` (
   CONSTRAINT `Active_Cases_ibfk_1` FOREIGN KEY (`JudgeID`) REFERENCES `Judges` (`ID`),
   CONSTRAINT `Active_Cases_ibfk_2` FOREIGN KEY (`VictimID`) REFERENCES `Clients` (`ID`),
   CONSTRAINT `Active_Cases_ibfk_3` FOREIGN KEY (`AccusedID`) REFERENCES `Clients` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `Active_Cases` (
 
 LOCK TABLES `Active_Cases` WRITE;
 /*!40000 ALTER TABLE `Active_Cases` DISABLE KEYS */;
-INSERT INTO `Active_Cases` VALUES (2,14,'2020-04-28','2020-04-28 13:00:00','2020-04-29 12:00:00','2020-04-28 13:00:00',1,2,2,3,'Main behgoona hoon mujhe fasaya jaa raha hai!',NULL,NULL,'Act 7, Act 10'),(3,15,'2020-04-28','2020-04-29 12:00:00','2020-04-29 12:00:00',NULL,0,3,3,5,NULL,NULL,NULL,NULL),(4,19,'2020-04-28','2020-04-29 13:00:00','2020-04-29 13:00:00',NULL,0,4,4,9,NULL,2,NULL,NULL);
+INSERT INTO `Active_Cases` VALUES (2,14,'2020-04-28','2020-04-28 13:00:00',NULL,'2020-04-30 12:00:00',4,2,2,3,'Guilty',NULL,'surpirsed','1'),(3,15,'2020-04-28','2020-04-29 12:00:00','2020-04-29 12:00:00',NULL,0,3,3,5,NULL,NULL,NULL,NULL),(4,19,'2020-04-28','2020-04-29 13:00:00','2020-04-29 13:00:00',NULL,0,4,4,9,NULL,2,NULL,NULL),(5,20,'2020-04-28','2020-04-24 00:00:00','2020-05-30 10:10:00','2020-04-24 00:00:00',1,1,2,10,NULL,3,NULL,NULL);
 /*!40000 ALTER TABLE `Active_Cases` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +227,7 @@ CREATE TABLE `Firm_Request` (
 
 LOCK TABLES `Firm_Request` WRITE;
 /*!40000 ALTER TABLE `Firm_Request` DISABLE KEYS */;
-INSERT INTO `Firm_Request` VALUES (1,7,NULL,'My murder was attempted',3000,0),(4,5,NULL,'Help please',3200,0),(6,2,NULL,'I need Help',2000,0),(6,12,NULL,'Help me',2500,0),(8,2,NULL,'Need help',2500,0),(10,1,NULL,'Help me please',3000,0),(17,3,NULL,'I need Help!',2100,0),(18,14,NULL,'Property dispute',2000,0),(19,8,NULL,'I need your Help',3100,0),(29,18,NULL,'I really need your Help',1800,0);
+INSERT INTO `Firm_Request` VALUES (1,7,NULL,'My murder was attempted',3000,0),(4,5,NULL,'Help please',3200,2),(6,2,NULL,'I need Help',2000,0),(6,12,NULL,'Help me',2500,0),(8,2,NULL,'Need help',2500,0),(10,1,NULL,'Help me please',3000,0),(13,5,NULL,'Bachalo Mujhe pls',8000,1),(17,3,NULL,'I need Help!',2100,0),(18,14,NULL,'Property dispute',2000,0),(19,8,NULL,'I need your Help',3100,0),(29,18,NULL,'I really need your Help',1800,0);
 /*!40000 ALTER TABLE `Firm_Request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +284,7 @@ CREATE TABLE `Hearings` (
 
 LOCK TABLES `Hearings` WRITE;
 /*!40000 ALTER TABLE `Hearings` DISABLE KEYS */;
-INSERT INTO `Hearings` VALUES ('2020-04-29 11:00:00',1,'2020-04-28 12:00:00','FOund new evidence.'),('2020-04-29 12:00:00',2,'2020-04-28 13:00:00','FOund big1 evidence.'),('2020-04-30 12:00:00',1,'2020-04-29 11:00:00','FOund big1 evidence.');
+INSERT INTO `Hearings` VALUES ('2020-04-28 15:00:00',2,'2020-04-29 12:00:00','FOund big1 evidence.'),('2020-04-29 11:00:00',1,'2020-04-28 12:00:00','FOund new evidence.'),('2020-04-29 12:00:00',2,'2020-04-28 13:00:00','FOund big1 evidence.'),('2020-04-30 12:00:00',1,'2020-04-29 11:00:00','FOund big1 evidence.'),('2020-04-30 12:00:00',2,'2020-04-28 15:00:00','doneeeee'),('2020-05-30 10:10:00',5,'2020-04-24 00:00:00','testing time date');
 /*!40000 ALTER TABLE `Hearings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,7 +345,7 @@ CREATE TABLE `Lawyer_Client` (
 
 LOCK TABLES `Lawyer_Client` WRITE;
 /*!40000 ALTER TABLE `Lawyer_Client` DISABLE KEYS */;
-INSERT INTO `Lawyer_Client` VALUES (2,2,1,0,NULL,0,0,NULL),(7,3,2,0,NULL,0,0,NULL),(7,5,3,0,NULL,0,0,NULL),(7,9,4,0,NULL,0,0,NULL),(10,2,4,1,NULL,0,0,NULL);
+INSERT INTO `Lawyer_Client` VALUES (2,2,1,0,10000,0,1,NULL),(7,3,2,0,NULL,0,0,NULL),(7,5,3,0,NULL,0,0,NULL),(7,9,4,0,NULL,0,0,NULL),(7,10,5,0,NULL,0,0,NULL),(9,3,5,1,NULL,0,0,NULL),(10,2,4,1,NULL,0,0,NULL);
 /*!40000 ALTER TABLE `Lawyer_Client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +378,7 @@ CREATE TABLE `Lawyer_Request` (
 
 LOCK TABLES `Lawyer_Request` WRITE;
 /*!40000 ALTER TABLE `Lawyer_Request` DISABLE KEYS */;
-INSERT INTO `Lawyer_Request` VALUES (1,2,NULL,'Please help',2000,1),(1,7,NULL,'Bachalo Mujhe pls',8000,2),(1,9,18,'Bachalo Mujhe pls',8000,2),(2,2,NULL,'Please help me',5000,2),(2,5,NULL,'aaaaaaaa',12131,1),(2,7,NULL,'Bachalo Mujhe pls',8000,2),(2,9,19,'Bachalo Mujhe pls',8000,2),(2,10,19,'Bachalo Mujhe pls',8000,1),(3,7,NULL,'Bachalo Mujhe pls',8000,1),(3,9,20,'Bachalo Mujhe pls',8000,1),(4,2,NULL,'Bachalo Mujhe pls',2000,2),(4,3,NULL,'Help please',3000,1),(4,7,NULL,'Bachalo Mujhe pls',8000,2),(4,9,21,'Bachalo Mujhe pls',8000,1),(5,2,NULL,'Bachalo Mujhe pls',2000,0),(5,4,NULL,'Help please',2000,1),(5,7,NULL,'Bachalo Mujhe pls',8000,1),(5,8,NULL,'Help please!!',2300,1),(5,9,22,'Bachalo Mujhe pls',8000,1),(6,2,NULL,'Bachalo Mujhe pls',2000,0),(6,7,NULL,'Bachalo Mujhe pls',8000,1),(7,2,NULL,'Bachalo Mujhe pls',2000,0),(7,7,NULL,'Bachalo Mujhe pls',8000,1),(8,2,NULL,'Bachalo Mujhe pls',2000,0),(8,7,NULL,'Bachalo Mujhe pls',8000,1),(9,1,NULL,'Bachalo Mujhe pls',2000,0),(9,2,NULL,'Bachalo Mujhe pls',2000,0),(9,7,NULL,'Bachalo Mujhe pls',8000,1),(10,1,NULL,'Bachalo Mujhe pls',2000,0),(10,2,NULL,'Bachalo Mujhe pls',2000,0),(10,7,NULL,'Bachalo Mujhe pls',8000,1),(11,2,NULL,'Bachalo Mujhe pls',2000,0),(11,7,NULL,'Bachalo Mujhe pls',8000,1),(12,2,NULL,'Bachalo Mujhe pls',2000,0),(12,7,NULL,'Bachalo Mujhe pls',8000,1),(13,7,NULL,'Bachalo Mujhe pls',8000,1),(14,7,NULL,'Bachalo Mujhe pls',8000,0),(15,6,NULL,'I am getting death threats',3500,1),(15,7,NULL,'Bachalo Mujhe pls',8000,0),(17,7,NULL,'I was stabbed',3000,2),(20,10,NULL,'Online fraud',1500,1),(21,9,NULL,'Help',1500,1),(27,10,NULL,'Help me',2000,1),(28,11,NULL,'Property dispute',2000,1);
+INSERT INTO `Lawyer_Request` VALUES (1,2,NULL,'Please help',2000,1),(1,7,NULL,'Bachalo Mujhe pls',8000,2),(1,9,18,'Bachalo Mujhe pls',8000,2),(2,2,NULL,'Please help me',5000,2),(2,5,NULL,'aaaaaaaa',12131,1),(2,7,NULL,'Bachalo Mujhe pls',8000,2),(2,9,19,'Bachalo Mujhe pls',8000,2),(2,10,19,'Bachalo Mujhe pls',8000,1),(3,7,NULL,'Bachalo Mujhe pls',8000,1),(3,9,20,'Bachalo Mujhe pls',8000,1),(4,2,NULL,'Bachalo Mujhe pls',2000,2),(4,3,NULL,'Help please',3000,1),(4,7,NULL,'Bachalo Mujhe pls',8000,2),(4,9,21,'Bachalo Mujhe pls',8000,1),(5,2,NULL,'Bachalo Mujhe pls',2000,2),(5,4,NULL,'Help please',2000,1),(5,7,NULL,'Bachalo Mujhe pls',8000,1),(5,8,NULL,'Help please!!',2300,1),(5,9,22,'Bachalo Mujhe pls',8000,1),(6,2,NULL,'Bachalo Mujhe pls',2000,0),(6,7,NULL,'Bachalo Mujhe pls',8000,1),(7,2,NULL,'Bachalo Mujhe pls',2000,0),(7,7,NULL,'Bachalo Mujhe pls',8000,1),(8,2,NULL,'Bachalo Mujhe pls',2000,0),(8,7,NULL,'Bachalo Mujhe pls',8000,1),(9,1,NULL,'Bachalo Mujhe pls',2000,0),(9,2,NULL,'Bachalo Mujhe pls',2000,0),(9,7,NULL,'Bachalo Mujhe pls',8000,1),(10,1,NULL,'Bachalo Mujhe pls',2000,0),(10,2,NULL,'Bachalo Mujhe pls',2000,0),(10,7,NULL,'Bachalo Mujhe pls',8000,1),(11,2,NULL,'Bachalo Mujhe pls',2000,0),(11,7,NULL,'Bachalo Mujhe pls',8000,1),(12,2,NULL,'Bachalo Mujhe pls',2000,0),(12,7,NULL,'Bachalo Mujhe pls',8000,1),(13,2,NULL,'Bachalo Mujhe pls',8000,0),(13,5,6,'Bachalo Mujhe pls',8000,1),(13,7,NULL,'Bachalo Mujhe pls',8000,1),(14,7,NULL,'Bachalo Mujhe pls',8000,0),(15,6,NULL,'I am getting death threats',3500,1),(15,7,NULL,'Bachalo Mujhe pls',8000,0),(17,7,NULL,'I was stabbed',3000,2),(20,10,NULL,'Online fraud',1500,1),(21,9,NULL,'Help',1500,1),(27,10,NULL,'Help me',2000,1),(28,11,NULL,'Property dispute',2000,1);
 /*!40000 ALTER TABLE `Lawyer_Request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,7 +452,7 @@ CREATE TABLE `Pending_Cases` (
 
 LOCK TABLES `Pending_Cases` WRITE;
 /*!40000 ALTER TABLE `Pending_Cases` DISABLE KEYS */;
-INSERT INTO `Pending_Cases` VALUES (3,'2020-04-26',4,3,29,NULL,1,NULL,0,0,0),(4,'2020-04-26',5,4,NULL,NULL,0,NULL,0,0,0),(5,'2020-04-26',15,6,NULL,NULL,0,NULL,0,0,0),(6,'2020-04-26',5,8,13,NULL,1,NULL,0,0,0),(7,'2020-04-26',21,9,NULL,NULL,0,NULL,0,0,0),(8,'2020-04-26',20,10,16,NULL,1,NULL,0,0,0),(9,'2020-04-26',27,10,25,NULL,1,NULL,0,0,0),(10,'2020-04-26',28,11,30,NULL,1,NULL,0,0,0),(11,'2020-04-26',2,1,NULL,NULL,0,NULL,0,0,0),(12,'2020-04-26',2,5,NULL,NULL,0,NULL,0,0,0),(13,'2020-04-26',2,4,1,NULL,1,NULL,0,0,0),(16,'2020-04-28',6,7,NULL,NULL,0,0,1,0,0),(17,'2020-04-28',7,7,NULL,NULL,0,0,0,0,0),(18,'2020-04-28',8,7,1,NULL,1,0,0,0,0),(20,'2020-04-28',10,7,3,9,1,1,1,1,1),(21,'2020-04-28',11,7,4,9,1,1,0,0,0),(22,'2020-04-28',12,7,5,9,1,1,0,0,0),(23,'2020-04-28',13,7,6,NULL,1,0,0,0,0);
+INSERT INTO `Pending_Cases` VALUES (3,'2020-04-26',4,3,29,NULL,1,0,0,0,0),(4,'2020-04-26',5,4,NULL,NULL,0,0,0,0,0),(5,'2020-04-26',15,6,NULL,NULL,0,0,0,0,0),(6,'2020-04-26',5,8,13,5,1,0,0,0,0),(7,'2020-04-26',21,9,NULL,NULL,0,0,0,0,0),(8,'2020-04-26',20,10,16,NULL,1,0,0,0,0),(9,'2020-04-26',27,10,25,NULL,1,0,0,0,0),(10,'2020-04-26',28,11,30,NULL,1,0,0,0,0),(11,'2020-04-26',2,1,NULL,NULL,0,0,0,0,0),(12,'2020-04-26',2,5,NULL,NULL,0,0,0,0,0),(13,'2020-04-26',2,4,1,NULL,1,0,0,0,0),(16,'2020-04-28',6,7,NULL,NULL,0,0,1,0,1),(17,'2020-04-28',7,7,NULL,NULL,0,0,0,0,0),(18,'2020-04-28',8,7,1,NULL,1,0,0,0,0),(21,'2020-04-28',11,7,4,9,1,1,0,0,0),(22,'2020-04-28',12,7,5,9,1,1,0,0,0),(23,'2020-04-28',13,7,6,NULL,1,0,0,0,0);
 /*!40000 ALTER TABLE `Pending_Cases` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -502,4 +502,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-28 13:19:01
+-- Dump completed on 2020-04-28 18:02:55
