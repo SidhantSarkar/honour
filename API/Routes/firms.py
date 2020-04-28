@@ -116,3 +116,31 @@ def firm_winsLoses():
         return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(firm.winsLoses(**res))
+
+@api.route('/firm/showLawyers', methods=['POST'])
+def firm_showLawyers():
+    res = dataSource(request)
+    params = inspect.getargspec(firm.showLawyers).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(firm.showLawyers(**res))
+
+@api.route('/firm/recruitLawyer', methods=['POST'])
+def firm_recruitLawyer():
+    res = dataSource(request)
+    params = inspect.getargspec(firm.recruitLawyer).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(firm.recruitLawyer(**res))

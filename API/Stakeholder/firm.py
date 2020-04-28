@@ -97,3 +97,15 @@ def winsLoses(FirmID):
 		n_loses = loses['arr'][0]
 
 	return {'res': 'success', 'arr':[{'FirmID':FirmID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]}
+
+def showLawyers(Spec_Area):
+    '''FIRM: search for lawyer'''
+    query = 'SELECT * FROM Lawyers WHERE (Spec_Area = %s OR Spec_Area IS NULL) AND FirmID IS NULL ORDER BY rating DESC, Fees_range ASC'
+    param = (Spec_Area,)
+    return selectWrapper(query, param)
+
+def recruitLawyer(FirmID, LawyerID):
+	'''FIRM: recruit lawyer'''
+	query = 'UPDATE Lawyers SET FirmID = %s WHERE ID = %s'
+	param = (FirmID, LawyerID)
+	return insertUpdateDeleteWrapper(query, param)
