@@ -59,7 +59,7 @@ def judge_lawyerTrackRecord():
     if(not addtionalParams(params, res)):
         return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
-    return convertToJson(judge.LawyerlrackRecord(**res))
+    return convertToJson(judge.lawyerTrackRecord(**res))
 
 @api.route('/judge/clientTrackRecord', methods=['POST'])
 def judge_clientTrackRecord():

@@ -1,4 +1,5 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
+from datetime import datetime
 
 def getRequests(LawyerID):
     query = 'SELECT * FROM Lawyer_Request WHERE LawyerID = %s AND Status = 0'
@@ -51,8 +52,10 @@ def getActiveCases(LawyerID):
     return selectWrapper(query, param)
 
 def todaySchedule(LawyerID):
-    query = 'SELECT * FROM Active_Cases WHERE NextHearing BETWEEN "CURDATE() 00:00:00" AND "CURDATE() 23:59:59" AND CNRno in (SELECT DISTINCT CNRno FROM Lawyer_Client WHERE LawyerID = %s)'
-    param = (LawyerID,)
+    curr_start = datetime.now().strftime('%Y-%m-%d') + ' 00:00:00'
+    curr_end = datetime.now().strftime('%Y-%m-%d') + ' 23:59:59'
+    query = 'SELECT * FROM Active_Cases WHERE NextHearing BETWEEN %s AND %s AND CNRno in (SELECT DISTINCT CNRno FROM Lawyer_Client WHERE LawyerID = %s)'
+    param = (curr_start, curr_end, LawyerID,)
     return selectWrapper(query, param)
 
 def getClosedCases():
@@ -73,7 +76,7 @@ def getNotPaidClients(LawyerID):
 def createPaymentRequest(LawyerID, ClientID, Fee, CNRno):
     query = 'UPDATE Lawyer_Client SET isRequested = 1, Fee = %s WHERE ClientID = %s AND LawyerID = %s AND CNRno = %s'
     param = (Fee, ClientID, LawyerID, CNRno)
-    return updateStatus(query, param)
+    return insertUpdateDeleteWrapper(query, param)
 
 
             

@@ -1,5 +1,6 @@
 # from init import selectWrapper, insertUpdateDeleteWrapper
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
+from datetime import datetime
 
 def fileFIR(FilingNo, InspectorName, Description):
 	'''OFFICER: File FIR'''
@@ -71,8 +72,10 @@ def addHearing(CNR, PrevHearing, NextHearing, Purpose):
 
 def schedule():
 	'''OFFICER: Check Schedule'''
-	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN 'CURDATE() 00:00:00' AND 'CURDATE() 23:59:59'"
-	param = tuple()
+	curr_start = datetime.now().strftime('%Y-%m-%d') + ' 00:00:00'
+	curr_end = datetime.now().strftime('%Y-%m-%d') + ' 23:59:59'
+	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN %s AND %s"
+	param = tuple(curr_start, curr_end)
 	return selectWrapper(query, param)
 
 def updateCaseStatements(CNRno, VictimStmnt='', AccusedStmnt='', Acts=''):

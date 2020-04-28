@@ -59,7 +59,7 @@ def lawyerPerformance(LawyerID):
 		return loses
 	else:
 		n_loses = loses['arr'][0]
-	return {'res': 'ok', 'arr':[{'LawyerID':LawyerID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]}
+	return {'res': 'success', 'arr':[{'LawyerID':LawyerID, 'wins': n_wins['wins'], 'loses': n_loses['loses']}]}
 
 
 def earningByClients(FirmID, datePaid):
@@ -96,4 +96,4 @@ def winsLoses(FirmID):
 	else:
 		n_loses = loses['arr'][0]
 
-	return {'res': 'ok', 'arr':[{'FirmID':FirmID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]}
+	return {'res': 'success', 'arr':[{'FirmID':FirmID, 'Wins': n_wins['Wins'], 'Loses': n_loses['Loses']}]}

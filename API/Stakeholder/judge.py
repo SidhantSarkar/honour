@@ -1,4 +1,5 @@
 from API.Stakeholder import selectWrapper, insertUpdateDeleteWrapper
+from datetime import datetime
 
 def prevCasesCNRno(CNRno):
 	'''JUDGE: See Previous Judgments based on CNR No.'''
@@ -14,8 +15,10 @@ def prevCasesAct(Acts):
 
 def schedule(JudgeID):
 	'''JUDGE: See Schedule for the day'''
-	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN 'CURDATE() 00:00:00' AND 'CURDATE() 23:59:59' AND JudgeID = %s"
-	param = (JudgeID,)
+	curr_start = datetime.now().strftime('%Y-%m-%d') + ' 00:00:00'
+	curr_end = datetime.now().strftime('%Y-%m-%d') + ' 23:59:59'
+	query = 'SELECT * from Active_Cases WHERE NextHearing BETWEEN %s AND %s AND JudgeID = %s'
+	param = (curr_start, curr_end, JudgeID,)
 	return selectWrapper(query, param)
 
 def lawyerTrackRecord(LawyerID):
