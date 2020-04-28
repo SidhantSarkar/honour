@@ -1,6 +1,7 @@
 import inspect
 from flask import request, jsonify
 from API.Routes import dataSource, validateResponse, convertToJson, returnMissingParams, addtionalParams
+from API.bonus import getIPC
 
 import API.Stakeholder.judge as judge
 from API import api
@@ -158,3 +159,21 @@ def judge_acceptCase():
         return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(judge.acceptCase(**res))
+
+@api.route('/judge/bonus', methods=['POST'])
+def judge_bonus():
+    res = dataSource(request)
+    params = ['keywords']
+
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+
+    keywords = res['keywords']
+    keywords = keywords.split(',')
+    res = getIPC(keywords)
+
+    return convertToJson({'res': 'success', 'arr': res})

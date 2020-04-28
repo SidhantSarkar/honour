@@ -25,13 +25,41 @@ def lawyerTrackRecord(LawyerID):
 	'''JUDGE: Track record of a Lawyer'''
 	query = "SELECT * from Closed_Cases where Victim_LawyerID = %s OR Accused_LawyerID = %s"
 	param = (LawyerID, LawyerID	,)
-	return selectWrapper(query, param)
+	res = selectWrapper(query, param)
+
+	if(res['res'] == 'failed'):
+		return res
+	
+	query = "SELECT * from Lawyers where ID = %s"
+	param = (LawyerID,)
+	temp = selectWrapper(query, param)
+
+	if(temp['res'] == 'failed'):
+		return temp
+
+	res['details'] = temp['arr']
+
+	return res
 
 def clientTrackRecord(ClientID):
 	'''JUDGE: Track record of a Client'''
 	query = "SELECT * from Closed_Cases where VictimID = %s OR AccusedID = %s"
 	param = (ClientID, ClientID)
-	return selectWrapper(query, param)
+	res = selectWrapper(query, param)
+
+	if(res['res'] == 'failed'):
+		return res
+	
+	query = "SELECT * from Clients where ID = %s"
+	param = (ClientID,)
+	temp = selectWrapper(query, param)
+
+	if(temp['res'] == 'failed'):
+		return temp
+
+	res['details'] = temp['arr']
+
+	return res
 
 def viewCase(CNRno):
 	'''JUDGE: View details of an Active case'''
@@ -67,7 +95,6 @@ def announceVerdict(CNRno, Victim_LawyerID, CaseStmnt, FinalVerdict , WonID_Clie
 	if(res1['res'] == 'failed'):
 		return res1
 	
-	print('Deleted')
 	if(result['res'] == 'success'):
 		print('Accessing to insert')
 		values = result['arr'][0]
