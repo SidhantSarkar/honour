@@ -75,7 +75,7 @@ def schedule():
 	curr_start = datetime.now().strftime('%Y-%m-%d') + ' 00:00:00'
 	curr_end = datetime.now().strftime('%Y-%m-%d') + ' 23:59:59'
 	query = "SELECT * from Active_Cases WHERE NextHearing BETWEEN %s AND %s"
-	param = tuple(curr_start, curr_end)
+	param = tuple([curr_start, curr_end])
 	return selectWrapper(query, param)
 
 def updateCaseStatements(CNRno, VictimStmnt='', AccusedStmnt='', Acts=''):

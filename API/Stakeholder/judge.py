@@ -83,34 +83,40 @@ def announceVerdict(CNRno, Victim_LawyerID, CaseStmnt, FinalVerdict , WonID_Clie
 	if(result['arr'][0]['Stage'] == 0):
 		return {'res': 'failed', 'type':'Case is still at Stage 0'}
 
-	if(not Accused_LawyerID):
-		Accused_LawyerID = None
+	if(not result['arr'][0]['Acts']):
+		return {'res': 'failed', 'type':'No acts given'}
 
-	query = "SET FOREIGN_KEY_CHECKS = 0"
-	param = ()
-	res = insertUpdateDeleteWrapper(query, param)
-
-	query = "DELETE from Active_Cases WHERE CNRno=%s"
-	param = (CNRno,)
-	res1 = insertUpdateDeleteWrapper(query, param)
-
-	query = "SET FOREIGN_KEY_CHECKS = 1"
-	param = ()
-	res = insertUpdateDeleteWrapper(query, param)
-	
-	if(res1['res'] == 'failed'):
-		return res1
-	
 	if(result['res'] == 'success'):
-		print('Accessing to insert')
 		values = result['arr'][0]
-		print(values)
 
 		query = "INSERT INTO Closed_Cases(CNRno, FilingNo, FilingDate, JudgeID, VictimID, Victim_LawyerID, AccusedID, Accused_LawyerID, CaseStmnt, Acts, FinalVerdict, Verdict_Date, WonID_Client, WonID_Lawyer) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,CURDATE(),%s,%s);"
 		param = (CNRno, values['FilingNo'], values['FilingDate'], values['JudgeID'], values['VictimID'], Victim_LawyerID, values['AccusedID'], Accused_LawyerID, CaseStmnt, values['Acts'], FinalVerdict, WonID_Client, WonID_Lawyer,)
-		return insertUpdateDeleteWrapper(query, param)
+
+		intermediate_res = insertUpdateDeleteWrapper(query, param)
+
+		if(intermediate_res['res'] == 'failed'):
+			return intermediate_res
+
+		if(not Accused_LawyerID):
+			Accused_LawyerID = None
+
+		query = "SET FOREIGN_KEY_CHECKS = 0"
+		param = ()
+		res = insertUpdateDeleteWrapper(query, param)
+
+		query = "DELETE from Active_Cases WHERE CNRno=%s"
+		param = (CNRno,)
+		res1 = insertUpdateDeleteWrapper(query, param)
+
+		if(res1['res'] == 'failed'):
+			return res1
+
+		query = "SET FOREIGN_KEY_CHECKS = 1"
+		param = ()
+		res = insertUpdateDeleteWrapper(query, param)
 	
-	print("Here")
+		return intermediate_res
+	
 	return {"res": "failed"}
 
 def setHearing(CNRno, PrevHearing, NextHearing, Purpose):
