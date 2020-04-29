@@ -144,3 +144,17 @@ def lawyer_createPaymentRequest():
         return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
     
     return convertToJson(lawyer.createPaymentRequest(**res))
+
+@api.route('/lawyer/getAccountDetails', methods=['POST'])
+def lawyer_getAccountDetails():
+    res = dataSource(request)
+    params = inspect.getargspec(lawyer.getAccountDetails).args
+
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(lawyer.getAccountDetails(**res))

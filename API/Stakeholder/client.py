@@ -127,6 +127,9 @@ def getActiveFirmDetails(ClientID):
     query = 'SELECT * FROM Firms WHERE ID in (SELECT DISTINCT(FirmID) FROM Firm_Request WHERE ClientID = %s AND Status = 1)'
     param = (ClientID,)
     return selectWrapper(query, param)
-    
-# print(showLawyers('crime'))
-# print(lawyerRequest(1,1,'Test Chall raha hai',10000)) 
+
+def getAccountDetails(ClientID):
+    '''CLIENT: Get Account Details'''
+    query = 'SELECT * FROM Clients WHERE ID = %s'
+    param = (ClientID,)
+    return selectWrapper(query, param)

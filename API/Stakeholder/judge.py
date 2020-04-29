@@ -187,3 +187,8 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 
 	return result
 
+def getAccountDetails(JudgeID):
+    '''JUDGE: Get Account Details'''
+    query = 'SELECT * FROM Judges WHERE ID = %s'
+    param = (JudgeID,)
+    return selectWrapper(query, param)

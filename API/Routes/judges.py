@@ -160,6 +160,20 @@ def judge_acceptCase():
     
     return convertToJson(judge.acceptCase(**res))
 
+@api.route('/judge/getAccountDetails', methods=['POST'])
+def judge_getAccountDetails():
+    res = dataSource(request)
+    params = inspect.getargspec(judge.getAccountDetails).args
+
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(judge.getAccountDetails(**res))
+
 @api.route('/judge/bonus', methods=['POST'])
 def judge_bonus():
     res = dataSource(request)

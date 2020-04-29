@@ -172,3 +172,17 @@ def client_getActiveFirmDetails():
         return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
         
     return convertToJson(client.getActiveFirmDetails(**res))
+
+@api.route('/client/getAccountDetails', methods=['POST'])
+def client_getAccountDetails():
+    res = dataSource(request)
+    params = inspect.getargspec(client.getAccountDetails).args
+    
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+        
+    return convertToJson(client.getAccountDetails(**res))

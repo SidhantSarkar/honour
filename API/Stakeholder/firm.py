@@ -109,3 +109,9 @@ def recruitLawyer(FirmID, LawyerID):
 	query = 'UPDATE Lawyers SET FirmID = %s WHERE ID = %s'
 	param = (FirmID, LawyerID)
 	return insertUpdateDeleteWrapper(query, param)
+
+def getAccountDetails(FirmID):
+    '''FIRM: Get Account Details'''
+    query = 'SELECT * FROM Firms WHERE ID = %s'
+    param = (FirmID,)
+    return selectWrapper(query, param)
