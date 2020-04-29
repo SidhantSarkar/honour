@@ -77,6 +77,12 @@ def announceVerdict(CNRno, Victim_LawyerID, CaseStmnt, FinalVerdict , WonID_Clie
 	'''JUDGE: Announce final verdict for a case'''
 	result = viewCase(CNRno) #values extracted from Active_Cases
 
+	if(result['res'] == 'failed'):
+		return result
+	
+	if(result['arr'][0]['Stage'] == 0):
+		return {'res': 'failed', 'type':'Case is still at Stage 0'}
+
 	if(not Accused_LawyerID):
 		Accused_LawyerID = None
 
@@ -192,3 +198,44 @@ def getAccountDetails(JudgeID):
     query = 'SELECT * FROM Judges WHERE ID = %s'
     param = (JudgeID,)
     return selectWrapper(query, param)
+
+def getRelatedUser(CNRno):
+	'''JUDGE: Get Related Users'''
+	query = 'SELECT * FROM Lawyer_Client WHERE CNRno = %s'
+	param = (CNRno,)
+
+	res = selectWrapper(query, param)
+
+	if(res['res'] == 'failed'):
+		return res
+
+	data = res['arr']
+
+	result = {'res': 'success', 'Accused': [], 'Victim': [], 'Accused_Lawyer': [], 'Victim_Lawyer': []}
+
+	for enteries in data:
+		query = 'SELECT * FROM Clients WHERE ID = %s'
+		param = (enteries['ClientID'],)
+
+		client = selectWrapper(query, param)
+
+		if(client['res'] == 'failed'):
+			return client
+
+		query = 'SELECT * FROM Lawyers WHERE ID = %s'
+		param = (enteries['LawyerID'],)
+
+		lawyer = selectWrapper(query, param)
+
+		if(lawyer['res'] == 'failed'):
+			return lawyer
+
+		if(enteries['Side'] == 0):
+			result['Victim'] = client['arr']
+			result['Victim_Lawyer'] = lawyer['arr']
+		
+		else:
+			result['Accused'] = client['arr']
+			result['Accused_Lawyer'] = lawyer['arr']
+
+	return result	

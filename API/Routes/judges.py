@@ -174,6 +174,20 @@ def judge_getAccountDetails():
     
     return convertToJson(judge.getAccountDetails(**res))
 
+@api.route('/judge/getRelatedUser', methods=['POST'])
+def judge_getRelatedUser():
+    res = dataSource(request)
+    params = inspect.getargspec(judge.getRelatedUser).args
+
+    # check params should be in res
+    if (not validateResponse(params, res)):
+        return jsonify({'res': 'failed', 'type':'missing params %s' %returnMissingParams(params, res)})
+    
+    if(not addtionalParams(params, res)):
+        return jsonify({'res':'failed', 'reason': 'Additional Param Supplied.'})
+    
+    return convertToJson(judge.getRelatedUser(**res))
+
 @api.route('/judge/bonus', methods=['POST'])
 def judge_bonus():
     res = dataSource(request)
