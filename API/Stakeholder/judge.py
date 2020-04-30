@@ -100,7 +100,7 @@ def announceVerdict(CNRno, Victim_LawyerID, CaseStmnt, FinalVerdict , WonID_Clie
 		if(not Accused_LawyerID):
 			Accused_LawyerID = None
 
-		query = "SET FOREIGN_KEY_CHECKS = 0"
+		query = "SET FOREIGN_KEY_CHECKS = OFF"
 		param = ()
 		res = insertUpdateDeleteWrapper(query, param)
 
@@ -108,12 +108,16 @@ def announceVerdict(CNRno, Victim_LawyerID, CaseStmnt, FinalVerdict , WonID_Clie
 		param = (CNRno,)
 		res1 = insertUpdateDeleteWrapper(query, param)
 
-		if(res1['res'] == 'failed'):
-			return res1
-
-		query = "SET FOREIGN_KEY_CHECKS = 1"
+		query = "SET FOREIGN_KEY_CHECKS = ON"
 		param = ()
 		res = insertUpdateDeleteWrapper(query, param)
+
+		if(res1['res'] == 'failed'):
+			query = "DELETE FROM Closed_Cases WHERE CNRno = %s"
+			param = (CNRno,)
+			temp = insertUpdateDeleteWrapper(query, param)
+			
+			return res1
 	
 		return intermediate_res
 	
@@ -151,7 +155,7 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 	data = res['arr'][0]
 
 	#delete from pending cases
-	query = "SET FOREIGN_KEY_CHECKS = 0"
+	query = "SET FOREIGN_KEY_CHECKS = OFF"
 	param = tuple()
 	res = insertUpdateDeleteWrapper(query, param)
 
@@ -162,7 +166,7 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 	if(result['res'] == 'failed'):
 		return result
 	
-	query = "SET FOREIGN_KEY_CHECKS = 1"
+	query = "SET FOREIGN_KEY_CHECKS = ON"
 	param = tuple()
 	res = insertUpdateDeleteWrapper(query, param)
 

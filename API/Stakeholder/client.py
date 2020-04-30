@@ -73,7 +73,7 @@ def getPendindCases(User_ID):
 def withdrawCase(Case_ID, VictimID):
     '''CLIENT: withdraw cases'''
 
-    query = "SET FOREIGN_KEY_CHECKS = 0"
+    query = "SET FOREIGN_KEY_CHECKS = OFF"
     param = ()
     res1 = insertUpdateDeleteWrapper(query, param)
 
@@ -81,14 +81,14 @@ def withdrawCase(Case_ID, VictimID):
     param = (Case_ID, VictimID)
     res = insertUpdateDeleteWrapper(query, param)
 
-    query = "SET FOREIGN_KEY_CHECKS = 1"
+    query = "SET FOREIGN_KEY_CHECKS = ON"
     param = ()
     res1 = insertUpdateDeleteWrapper(query, param)
     
     if(res['res'] == 'failed'):
         if('err' not in res.keys()):
             
-            query = "SET FOREIGN_KEY_CHECKS = 0"
+            query = "SET FOREIGN_KEY_CHECKS = OFF"
             param = ()
             res1 = insertUpdateDeleteWrapper(query, param)
 
@@ -96,7 +96,7 @@ def withdrawCase(Case_ID, VictimID):
             param = (Case_ID,)
             res = insertUpdateDeleteWrapper(query, param)
             
-            query = "SET FOREIGN_KEY_CHECKS = 1"
+            query = "SET FOREIGN_KEY_CHECKS = ON"
             param = ()
             res1 = insertUpdateDeleteWrapper(query, param)
 
