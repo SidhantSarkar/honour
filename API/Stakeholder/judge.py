@@ -162,13 +162,13 @@ def acceptCase(FilingNo, FirstHearing, CourtNo, JudgeID):
 	query = "DELETE from Pending_Cases where FilingNo=%s"
 	param = (FilingNo,)
 	result =  insertUpdateDeleteWrapper(query, param)
-
-	if(result['res'] == 'failed'):
-		return result
 	
 	query = "SET FOREIGN_KEY_CHECKS = ON"
 	param = tuple()
 	res = insertUpdateDeleteWrapper(query, param)
+
+	if(result['res'] == 'failed'):
+		return result
 
 	#add to active cases
 	query = "INSERT into Active_Cases(FilingNo, FilingDate, FirstHearing, NextHearing, CourtNo, JudgeID, VictimID, AccusedID) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"

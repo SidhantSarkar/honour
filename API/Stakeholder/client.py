@@ -85,7 +85,7 @@ def withdrawCase(Case_ID, VictimID):
     param = ()
     res1 = insertUpdateDeleteWrapper(query, param)
     
-    if(res['res'] == 'failed'):
+    if(res['res'] == 'failed' and 'err' not in res):
         if('err' not in res.keys()):
             
             query = "SET FOREIGN_KEY_CHECKS = OFF"
